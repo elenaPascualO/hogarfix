@@ -1,0 +1,59 @@
+# Gradle
+.gradle/
+build/
+!src/**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.kotlin/
+*.swp
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Android
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# iOS / Xcode
+xcuserdata/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+*.ipa
+*.dSYM.zip
+*.dSYM
+DerivedData/
+Pods/
+
+# Kotlin Native
+.konan/
+
+# Node (si se usa para tooling)
+node_modules/
+
+# Secrets / Environment
+*.env
+*.env.local
+credentials.json
+google-services.json
+
+# Generated
+*.generated.*
+
+# Logs
+*.log
