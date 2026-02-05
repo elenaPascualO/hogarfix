@@ -10,6 +10,9 @@ sealed interface NavRoute {
     data object InterventionList : NavRoute
 
     @Serializable
+    data class InterventionForm(val id: Long? = null) : NavRoute
+
+    @Serializable
     data object InventoryList : NavRoute
 
     @Serializable

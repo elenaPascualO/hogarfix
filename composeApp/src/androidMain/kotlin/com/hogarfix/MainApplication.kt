@@ -2,6 +2,7 @@ package com.hogarfix
 
 import android.app.Application
 import com.hogarfix.data.local.initDatabaseContext
+import com.hogarfix.data.storage.initPhotoStorageContext
 import com.hogarfix.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -12,6 +13,9 @@ class MainApplication : Application() {
 
         // Initialize database context
         initDatabaseContext(this)
+
+        // Initialize photo storage context
+        initPhotoStorageContext(this)
 
         // Initialize Koin
         initKoin {

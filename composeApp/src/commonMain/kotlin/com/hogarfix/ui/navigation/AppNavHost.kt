@@ -5,7 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.hogarfix.ui.screens.home.HomeScreen
+import com.hogarfix.ui.screens.interventions.InterventionFormScreen
 import com.hogarfix.ui.screens.interventions.InterventionListScreen
 import com.hogarfix.ui.screens.inventory.InventoryListScreen
 import com.hogarfix.ui.screens.professionals.ProfessionalListScreen
@@ -26,7 +28,18 @@ fun AppNavHost(
         }
 
         composable<NavRoute.InterventionList> {
-            InterventionListScreen()
+            InterventionListScreen(
+                onNavigateToForm = { interventionId ->
+                    navController.navigate(NavRoute.InterventionForm(id = interventionId))
+                }
+            )
+        }
+
+        composable<NavRoute.InterventionForm> { backStackEntry ->
+            val route = backStackEntry.toRoute<NavRoute.InterventionForm>()
+            InterventionFormScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable<NavRoute.InventoryList> {
