@@ -1,127 +1,126 @@
 # HogarFix — Tareas Actuales
 
-> **Fase actual:** Fase 1 — Fundamentos (COMPLETADA)
+> **Fase actual:** Fase 2 — Intervenciones (COMPLETADA)
 
 ---
 
-## Fase 1 — Fundamentos (Semana 1-2)
+## Fase 1 — Fundamentos (COMPLETADA ✅)
 
 **Objetivo:** Esqueleto tecnico funcional
 
 ### Configuracion del proyecto
 
 - [x] Crear proyecto KMP con wizard de Android Studio
-  - Targets: Android + iOS
-  - Compose Multiplatform habilitado
-
 - [x] Configurar version catalog (`gradle/libs.versions.toml`)
-  - Room, Koin, Coil, Navigation, kotlinx-datetime, kotlinx-coroutines, KSP
-
 - [x] Verificar que compila en Android
-  - `./gradlew :composeApp:assembleDebug`
-
 - [x] Verificar que compila en iOS (simulador)
-  - `./gradlew :composeApp:compileKotlinIosSimulatorArm64`
 
 ### Tema y diseno
 
 - [x] Crear tema Material 3
-  - `ui/theme/Color.kt` — Paleta de colores
-  - `ui/theme/Type.kt` — Tipografia
-  - `ui/theme/Theme.kt` — HogarFixTheme composable
-
 - [x] Definir colores por categoria
-  - CategoryColors, StatusColors, ReminderColors
 
 ### Dependency Injection
 
 - [x] Configurar Koin
-  - `di/AppModule.kt` — Modulos vacios preparados
-  - Inicializar en `MainApplication.kt` (Android)
-  - Inicializar en `MainViewController.kt` (iOS)
 
 ### Base de datos
 
 - [x] Configurar Room Multiplatform
-  - `data/local/AppDatabase.kt` con @ConstructedBy para iOS
-  - `data/local/DatabaseFactory.kt` (expect/actual)
-  - Plugin KSP configurado en build.gradle
-
 - [x] Crear entidades
-  - `data/local/entity/InterventionEntity.kt`
-  - `data/local/entity/HomeItemEntity.kt`
-  - `data/local/entity/ProfessionalEntity.kt`
-  - `data/local/entity/ReminderEntity.kt`
-
 - [x] Crear TypeConverters
-  - `data/local/Converters.kt`
-  - `List<String>` <-> JSON (para photoUris)
-
 - [x] Crear DAOs con queries basicas
-  - `data/local/dao/InterventionDao.kt`
-  - `data/local/dao/HomeItemDao.kt`
-  - `data/local/dao/ProfessionalDao.kt`
-  - `data/local/dao/ReminderDao.kt`
 
 ### Navegacion
 
 - [x] Configurar Compose Navigation
-  - `ui/navigation/NavRoutes.kt` — Rutas serializables
-  - `ui/navigation/AppNavHost.kt` — NavHost principal
-
 - [x] Implementar Bottom Navigation
-  - 5 tabs: Inicio, Trabajos, Inventario, Contactos, Avisos
-  - Material Icons integrados
-
 - [x] Crear pantallas placeholder
-  - `ui/screens/home/HomeScreen.kt`
-  - `ui/screens/interventions/InterventionListScreen.kt`
-  - `ui/screens/inventory/InventoryListScreen.kt`
-  - `ui/screens/professionals/ProfessionalListScreen.kt`
-  - `ui/screens/reminders/ReminderListScreen.kt`
 
 ### Modelos de dominio
 
 - [x] Crear enums
-  - `domain/model/Category.kt` (13 categorias)
-  - `domain/model/Status.kt` (PENDING, IN_PROGRESS, COMPLETED)
-  - `domain/model/DoneBy.kt` (MYSELF, PROFESSIONAL)
-
 - [x] Crear modelos de dominio
-  - `domain/model/Intervention.kt`
-  - `domain/model/HomeItem.kt`
-  - `domain/model/Professional.kt`
-  - `domain/model/Reminder.kt`
 
 ---
 
-## Entregable de Fase 1
+## Fase 2 — Intervenciones (COMPLETADA ✅)
+
+**Objetivo:** Funcionalidad core de registro de trabajos
+
+### Domain Layer
+
+- [x] `InterventionRepository` interface
+- [x] `GetInterventionsUseCase`
+- [x] `SaveInterventionUseCase`
+- [x] `DeleteInterventionUseCase`
+
+### Data Layer
+
+- [x] `InterventionMapper` (Entity ↔ Domain)
+- [x] `PhotoStorage` (expect/actual para Android e iOS)
+- [x] `InterventionRepositoryImpl`
+
+### UI Components
+
+- [x] `CategorySelector` — Selector de categorias con chips y colores
+- [x] `StatusChip` — Badge de estado con colores
+- [x] `InterventionCard` — Tarjeta para listas
+- [x] `PhotoGallery` — Galeria horizontal con Coil
+- [x] `PhotoPicker` (expect/actual) — Selector de fotos
+- [x] `DeleteConfirmationDialog` — Dialogo de confirmacion
+- [x] `EmptyStateView` — Estado vacio con CTA
+
+### Screens
+
+- [x] `InterventionListScreen` con LazyColumn y filtros
+- [x] `InterventionListViewModel` con State/Event pattern
+- [x] `InterventionFormScreen` para crear/editar
+- [x] `InterventionFormViewModel`
+
+### Navigation & DI
+
+- [x] Ruta `InterventionForm(id: Long?)` en NavRoutes
+- [x] Navegacion conectada en AppNavHost
+- [x] Dependencias registradas en AppModule (Koin)
+
+### Utilities
+
+- [x] `TimeUtils` (expect/actual) para manejo de fechas cross-platform
+
+---
+
+## Entregable de Fase 2
 
 App que:
 - [x] Compila en Android e iOS
-- [x] Muestra Bottom Navigation con 5 tabs
-- [x] Navega entre pantallas placeholder
-- [x] Tiene tema Material 3 aplicado
-- [x] Tiene Room configurado (aunque sin datos)
-- [x] Tiene Koin configurado
+- [x] Lista intervenciones con LazyColumn
+- [x] Filtra por categoria
+- [x] Crea nuevas intervenciones
+- [x] Edita intervenciones existentes
+- [x] Selecciona fotos de galeria
+- [x] Cambia estado (pendiente/en curso/completado)
+- [x] Muestra estado vacio cuando no hay datos
 
 ---
 
 ## Notas
 
-- Requiere Java 17+ para compilar (usar OpenJDK via Homebrew)
-- Los warnings de deprecation sobre `Instant` se pueden ignorar por ahora
+- Requiere Java 17+ para compilar
+- Los warnings de deprecation sobre `Instant` se pueden ignorar (kotlinx-datetime)
+- Los warnings de expect/actual classes en Beta se pueden ignorar
 
 ---
 
-## Siguiente: Fase 2 — Intervenciones
+## Siguiente: Fase 3 — Inventario del Hogar
 
-Ahora que la Fase 1 esta completada, las tareas de la Fase 2 seran:
+Tareas de la Fase 3:
 
-- [ ] Pantalla lista de intervenciones (LazyColumn)
-- [ ] Pantalla crear/editar intervencion
-- [ ] Selector de categorias con iconos y colores
-- [ ] Captura de fotos (expect/actual camara/galeria)
+- [ ] Pantalla lista de elementos del hogar (LazyColumn)
+- [ ] Pantalla crear/editar elemento
+- [ ] Campos: nombre, marca, modelo, fecha compra, garantia, foto
+- [ ] Alerta visual de garantias proximas a vencer
+- [ ] Vincular intervenciones a elementos
 - [ ] Repository + UseCase para CRUD
-- [ ] Estado: pendiente / en curso / terminado
-- [ ] Eliminar con confirmacion
+
+**Entregable:** Usuario puede gestionar inventario y ver que elementos tienen trabajos asociados

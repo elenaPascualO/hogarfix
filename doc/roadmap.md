@@ -50,19 +50,19 @@
 
 ---
 
-## Fase 1 — Fundamentos (Semana 1-2)
+## Fase 1 — Fundamentos (Semana 1-2) ✅ COMPLETADA
 
 **Objetivo:** Esqueleto técnico funcional
 
 | Tarea | Prioridad | Estado |
 |-------|-----------|--------|
-| Crear proyecto KMP con wizard de Android Studio | Alta | ⬜ |
-| Configurar dependencias (version catalog) | Alta | ⬜ |
-| Implementar tema Material 3 | Alta | ⬜ |
-| Configurar Koin (módulos DI) | Alta | ⬜ |
-| Configurar Room (DB, entidades, DAOs) | Alta | ⬜ |
-| Implementar navegación base (Bottom Nav + NavHost) | Alta | ⬜ |
-| Pantallas placeholder para cada sección | Media | ⬜ |
+| Crear proyecto KMP con wizard de Android Studio | Alta | ✅ |
+| Configurar dependencias (version catalog) | Alta | ✅ |
+| Implementar tema Material 3 | Alta | ✅ |
+| Configurar Koin (módulos DI) | Alta | ✅ |
+| Configurar Room (DB, entidades, DAOs) | Alta | ✅ |
+| Implementar navegación base (Bottom Nav + NavHost) | Alta | ✅ |
+| Pantallas placeholder para cada sección | Media | ✅ |
 
 **Diferenciador incluido:** ✅ Offline-first sin cuenta (viene por arquitectura Room)
 
@@ -70,19 +70,19 @@
 
 ---
 
-## Fase 2 — Intervenciones (Semana 3-4)
+## Fase 2 — Intervenciones (Semana 3-4) ✅ COMPLETADA
 
 **Objetivo:** Funcionalidad core de registro de trabajos
 
 | Tarea | Prioridad | Estado |
 |-------|-----------|--------|
-| Pantalla lista de intervenciones (LazyColumn) | Alta | ⬜ |
-| Pantalla crear/editar intervención | Alta | ⬜ |
-| Selector de categorías con iconos y colores | Alta | ⬜ |
-| Captura de fotos (expect/actual cámara/galería) | Alta | ⬜ |
-| Repository + UseCase para CRUD | Alta | ⬜ |
-| Estado: pendiente / en curso / terminado | Media | ⬜ |
-| Eliminar con confirmación | Media | ⬜ |
+| Pantalla lista de intervenciones (LazyColumn) | Alta | ✅ |
+| Pantalla crear/editar intervención | Alta | ✅ |
+| Selector de categorías con iconos y colores | Alta | ✅ |
+| Captura de fotos (expect/actual cámara/galería) | Alta | ✅ |
+| Repository + UseCase para CRUD | Alta | ✅ |
+| Estado: pendiente / en curso / terminado | Media | ✅ |
+| Eliminar con confirmación | Media | ✅ |
 
 **Entregable:** Usuario puede crear, ver, editar y eliminar intervenciones con fotos
 
@@ -323,7 +323,7 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 
 ## Próximos Pasos
 
-1. **Iniciar Fase 1:** Crear proyecto KMP con el wizard
+1. **Iniciar Fase 3:** Inventario del hogar
 2. **Definir identidad:** Elegir nombre final y crear branding
 3. **Diseñar UI:** Wireframes/mockups antes de codificar
 

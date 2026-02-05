@@ -95,7 +95,9 @@ UI (Composables) → ViewModel → UseCase → Repository → DAO
 
 ## Estado Actual del Proyecto
 
-**Fase actual:** Ver `doc/tasks/todo.md`
+**Fase completada:** Fase 2 — Intervenciones
+
+**Próxima fase:** Fase 3 — Inventario del Hogar
 
 **Tareas pendientes:** Ver `doc/tasks/todo.md`
 

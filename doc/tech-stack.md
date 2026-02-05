@@ -158,11 +158,12 @@ Funcionalidades que requieren implementación específica:
 | Funcionalidad | Android | iOS | Web (futuro) |
 |---------------|---------|-----|--------------|
 | **Notificaciones** | NotificationManager + WorkManager | UNUserNotificationCenter | Web Notifications API |
-| **Cámara/Galería** | Intent + ActivityResult | PHPicker + UIImagePicker | `<input type="file">` |
-| **Almacenamiento fotos** | App internal storage | App documents dir | IndexedDB |
+| **Cámara/Galería** | PickVisualMedia (ActivityResult) | PHPicker | `<input type="file">` |
+| **Almacenamiento fotos** | App internal storage (filesDir) | App documents dir | IndexedDB |
 | **Llamar teléfono** | Intent `tel:` | UIApplication.open | window.open("tel:") |
 | **Abrir WhatsApp** | Intent wa.me | URL scheme | window.open |
 | **Persistencia DB** | Room (SQLite) | Room (SQLite) | IndexedDB / Backend |
+| **Fecha/Hora actual** | Clock.System (kotlinx-datetime) | NSDate (expect/actual) | Clock.System |
 
 ---
 
