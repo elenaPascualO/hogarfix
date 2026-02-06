@@ -1,0 +1,51 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- House body (rectangle) -->
+    <path
+        android:fillColor="#D4754E"
+        android:pathData="M33,52 L33,78 C33,79.1 33.9,80 35,80 L73,80 C74.1,80 75,79.1 75,78 L75,52 L33,52 Z" />
+
+    <!-- Roof (triangle) -->
+    <path
+        android:fillColor="#D4754E"
+        android:pathData="M54,26 L28,52 L80,52 Z" />
+
+    <!-- Chimney -->
+    <path
+        android:fillColor="#D4754E"
+        android:pathData="M66,30 L66,42 L72,42 L72,36 Z" />
+
+    <!-- Door -->
+    <path
+        android:fillColor="#FFF8F5"
+        android:pathData="M47,62 L47,80 L61,80 L61,62 C61,60.9 60.1,60 59,60 L49,60 C47.9,60 47,60.9 47,62 Z" />
+
+    <!-- Window left -->
+    <path
+        android:fillColor="#FFF8F5"
+        android:pathData="M37,56 L37,64 C37,64.55 37.45,65 38,65 L44,65 C44.55,65 45,64.55 45,64 L45,56 C45,55.45 44.55,55 44,55 L38,55 C37.45,55 37,55.45 37,56 Z" />
+
+    <!-- Window right -->
+    <path
+        android:fillColor="#FFF8F5"
+        android:pathData="M63,56 L63,64 C63,64.55 63.45,65 64,65 L70,65 C70.55,65 71,64.55 71,64 L71,56 C71,55.45 70.55,55 70,55 L64,55 C63.45,55 63,55.45 63,56 Z" />
+
+    <!-- Checkmark circle background -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M72,72 m-11,0 a11,11 0,1 1,22 0 a11,11 0,1 1,-22 0" />
+
+    <!-- Checkmark -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M66.5,74.5 L70,78 L78,68"
+        android:strokeWidth="2.5"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+</vector>
