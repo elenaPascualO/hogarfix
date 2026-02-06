@@ -243,33 +243,29 @@
 
 ---
 
-### 6. Lista de Inventario
+### 6. Lista de Inventario (✅ IMPLEMENTADO)
 
 **Ruta:** `/inventory`
 
 ```
 ┌─────────────────────────────────┐
-│ Inventario                  🔍  │
+│ Inventario                      │
 ├─────────────────────────────────┤
-│ [Todas ▼]                       │
+│ [Todos] [Fontanería] [Elec...] │
 ├─────────────────────────────────┤
 │                                 │
 │ ┌─────────────────────────────┐ │
-│ │ 📷 Lavadora Samsung         │ │
-│ │ Electrodomésticos           │ │
-│ │ Garantía hasta: Mar 2026    │ │
+│ │▌ [Icon] Lavadora    [30 d] │ │
+│ │▌        Samsung · WW90      │ │
+│ │▌        📍 Cocina           │ │
+│ │▌        🔧 2 intervenciones │ │
 │ └─────────────────────────────┘ │
 │                                 │
 │ ┌─────────────────────────────┐ │
-│ │ 📷 Caldera Junkers          │ │
-│ │ Climatización               │ │
-│ │ ⚠️ Garantía vence en 30 días│ │
-│ └─────────────────────────────┘ │
-│                                 │
-│ ┌─────────────────────────────┐ │
-│ │ 📷 Aire acondicionado LG    │ │
-│ │ Climatización               │ │
-│ │ Sin garantía registrada     │ │
+│ │▌ [Icon] Caldera    [Vencida]│ │
+│ │▌        Junkers · ZWR24     │ │
+│ │▌        📍 Trastero         │ │
+│ │▌        🔧 1 intervencion   │ │
 │ └─────────────────────────────┘ │
 │                                 │
 │                           [+]   │
@@ -278,7 +274,19 @@
 └─────────────────────────────────┘
 ```
 
-**Badge de alerta** para garantías próximas a vencer (< 30 días)
+**Funcionalidades implementadas:**
+- Lista con `HomeItemCard` y accent bar de color categoría
+- Filtros por categoría (chips horizontales)
+- `WarrantyBadge` con colores: verde (>90 días), amarillo (31-90), rojo (<30 o vencida)
+- Contador de intervenciones asociadas
+- Swipe-to-delete para eliminar
+- FAB para crear nuevo elemento
+- Estado vacío con CTA
+
+**Badge de alerta** para garantías:
+- Verde: Más de 90 días
+- Amarillo: 31-90 días
+- Rojo: Menos de 30 días o vencida
 
 ---
 
@@ -403,19 +411,25 @@
 
 ## Componentes Reutilizables
 
-| Componente | Uso |
-|------------|-----|
-| `InterventionCard` | Tarjeta de intervención en listas |
-| `HomeItemCard` | Tarjeta de elemento del hogar |
-| `ProfessionalCard` | Tarjeta de profesional |
-| `ReminderCard` | Tarjeta de recordatorio |
-| `CategoryChip` | Chip con icono y color de categoría |
-| `StatusBadge` | Badge de estado (pendiente/curso/completado) |
-| `CostDisplay` | Visualización de coste formateado |
-| `PhotoGallery` | Galería horizontal de fotos |
-| `EmptyState` | Estado vacío con ilustración |
-| `SearchBar` | Barra de búsqueda |
-| `FilterSheet` | Bottom sheet con filtros |
+| Componente | Uso | Estado |
+|------------|-----|--------|
+| `InterventionCard` | Tarjeta de intervención en listas | ✅ |
+| `HomeItemCard` | Tarjeta de elemento del hogar | ✅ |
+| `ProfessionalCard` | Tarjeta de profesional | ⬜ |
+| `ReminderCard` | Tarjeta de recordatorio | ⬜ |
+| `CategorySelector` | Selector de categorías con chips | ✅ |
+| `CategoryIcon` | Icono con color de categoría | ✅ |
+| `StatusChip` | Badge de estado con icono + color | ✅ |
+| `WarrantyBadge` | Badge de garantía con colores | ✅ |
+| `SummaryCard` | Tarjeta resumen gastos en Home | ✅ |
+| `QuickActionButton` | Botón circular acceso rápido | ✅ |
+| `PhotoGallery` | Galería horizontal de fotos | ✅ |
+| `PhotoPicker` | Selector de fotos (expect/actual) | ✅ |
+| `EmptyStateView` | Estado vacío con CTA | ✅ |
+| `DeleteConfirmationDialog` | Diálogo confirmar borrado | ✅ |
+| `SwipeToDeleteContainer` | Contenedor swipe-to-delete | ✅ |
+| `SearchBar` | Barra de búsqueda | ⬜ |
+| `FilterSheet` | Bottom sheet con filtros | ⬜ |
 
 ---
 

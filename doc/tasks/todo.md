@@ -1,6 +1,6 @@
 # HogarFix — Tareas Actuales
 
-> **Fase actual:** Fase 2 — Intervenciones (COMPLETADA)
+> **Fase actual:** Fase 3 — Inventario (COMPLETADA)
 
 ---
 
@@ -132,15 +132,74 @@ Implementado el rediseño completo de la interfaz según `doc/redesigning-plan.m
 
 ---
 
-## Siguiente: Fase 3 — Inventario del Hogar
+## Fase 3 — Inventario del Hogar (COMPLETADA ✅)
 
-Tareas de la Fase 3:
+**Objetivo:** Registro de electrodomésticos y elementos
 
-- [ ] Pantalla lista de elementos del hogar (LazyColumn)
-- [ ] Pantalla crear/editar elemento
-- [ ] Campos: nombre, marca, modelo, fecha compra, garantia, foto
-- [ ] Alerta visual de garantias proximas a vencer
-- [ ] Vincular intervenciones a elementos
+### Domain Layer
+
+- [x] `HomeItemRepository` interface
+- [x] `GetHomeItemsUseCase`
+- [x] `SaveHomeItemUseCase`
+- [x] `DeleteHomeItemUseCase`
+
+### Data Layer
+
+- [x] `HomeItemMapper` (Entity ↔ Domain)
+- [x] `HomeItemRepositoryImpl`
+- [x] Refactorizar `PhotoStorage` para soportar múltiples tipos de entidad
+
+### UI Components
+
+- [x] `WarrantyBadge` — Badge con colores según días restantes de garantía
+- [x] `HomeItemCard` — Tarjeta con marca, modelo, ubicación, intervenciones
+- [x] `SwipeToDeleteContainer` — Componente swipe-to-delete reutilizable
+
+### Screens
+
+- [x] `InventoryListScreen` con LazyColumn y filtros por categoría
+- [x] `HomeItemListViewModel` con State/Event pattern
+- [x] `HomeItemFormScreen` para crear/editar (nombre, marca, modelo, categoría, fechas, ubicación, fotos, notas)
+- [x] `HomeItemFormViewModel`
+
+### Navigation & DI
+
+- [x] Ruta `HomeItemForm(id: Long?)` en NavRoutes
+- [x] Navegación conectada en AppNavHost
+- [x] Dependencias registradas en AppModule (Koin)
+
+### Funcionalidad de Borrado (Intervenciones + Inventario)
+
+- [x] Swipe-to-delete en listas (InterventionListScreen, InventoryListScreen)
+- [x] Botón eliminar en formularios de edición
+- [x] Diálogo de confirmación antes de borrar
+
+---
+
+## Entregable de Fase 3
+
+App que:
+- [x] Lista elementos del hogar con LazyColumn
+- [x] Filtra por categoría
+- [x] Muestra badge de garantía con colores (verde/amarillo/rojo)
+- [x] Crea nuevos elementos con todos los campos
+- [x] Edita elementos existentes
+- [x] Elimina elementos (swipe o botón en formulario)
+- [x] Muestra contador de intervenciones por elemento
+- [x] Selecciona fotos de galería
+
+---
+
+## Siguiente: Fase 4 — Profesionales
+
+Tareas de la Fase 4:
+
+- [ ] Pantalla lista de profesionales
+- [ ] Pantalla crear/editar profesional
+- [ ] Campos: nombre, teléfono, email, categoría, valoración
+- [ ] Acciones: llamar, WhatsApp (intents nativos)
+- [ ] Vincular profesional a intervenciones
+- [ ] Historial de trabajos por profesional
 - [ ] Repository + UseCase para CRUD
 
-**Entregable:** Usuario puede gestionar inventario y ver que elementos tienen trabajos asociados
+**Entregable:** Usuario tiene agenda de profesionales con historial de trabajos

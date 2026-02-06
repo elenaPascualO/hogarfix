@@ -88,17 +88,18 @@
 
 ---
 
-## Fase 3 — Inventario del Hogar (Semana 5)
+## Fase 3 — Inventario del Hogar (Semana 5) ✅ COMPLETADA
 
 **Objetivo:** Registro de electrodomésticos y elementos
 
 | Tarea | Prioridad | Estado |
 |-------|-----------|--------|
-| Pantalla lista de elementos del hogar | Alta | ⬜ |
-| Pantalla crear/editar elemento | Alta | ⬜ |
-| Campos: nombre, marca, modelo, fecha compra, garantía, foto | Alta | ⬜ |
-| Alerta visual de garantías próximas a vencer | Media | ⬜ |
-| Vincular intervenciones a elementos | Media | ⬜ |
+| Pantalla lista de elementos del hogar | Alta | ✅ |
+| Pantalla crear/editar elemento | Alta | ✅ |
+| Campos: nombre, marca, modelo, fecha compra, garantía, foto | Alta | ✅ |
+| Alerta visual de garantías próximas a vencer | Media | ✅ |
+| Vincular intervenciones a elementos | Media | ✅ |
+| Swipe-to-delete + botón eliminar en formularios | Media | ✅ |
 
 **Entregable:** Usuario puede gestionar inventario y ver qué elementos tienen trabajos asociados
 
@@ -325,7 +326,7 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 
 ## Próximos Pasos
 
-1. **Iniciar Fase 3:** Inventario del hogar
+1. **Iniciar Fase 4:** Profesionales
 2. **Definir identidad:** Elegir nombre final y crear branding
 3. **Diseñar UI:** Wireframes/mockups antes de codificar
 
