@@ -37,6 +37,7 @@ import com.hogarfix.ui.components.CategorySelector
 import com.hogarfix.ui.components.DeleteConfirmationDialog
 import com.hogarfix.ui.components.EmptyStateView
 import com.hogarfix.ui.components.InterventionCard
+import com.hogarfix.ui.components.SwipeToDeleteContainer
 import com.hogarfix.ui.components.getCategoryIcon
 import com.hogarfix.ui.components.getCategoryLabel
 import org.koin.compose.viewmodel.koinViewModel
@@ -141,12 +142,18 @@ fun InterventionListScreen(
                             items = state.filteredInterventions,
                             key = { it.id }
                         ) { intervention ->
-                            InterventionCard(
-                                intervention = intervention,
-                                onClick = {
-                                    viewModel.onEvent(InterventionListEvent.EditIntervention(intervention))
+                            SwipeToDeleteContainer(
+                                onDelete = {
+                                    viewModel.onEvent(InterventionListEvent.RequestDelete(intervention))
                                 }
-                            )
+                            ) {
+                                InterventionCard(
+                                    intervention = intervention,
+                                    onClick = {
+                                        viewModel.onEvent(InterventionListEvent.EditIntervention(intervention))
+                                    }
+                                )
+                            }
                         }
                     }
                 }

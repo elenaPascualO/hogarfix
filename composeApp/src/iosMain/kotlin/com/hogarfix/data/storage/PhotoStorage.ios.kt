@@ -42,9 +42,9 @@ class IosPhotoStorage : PhotoStorage {
         }
 
     @OptIn(BetaInteropApi::class)
-    override suspend fun savePhoto(interventionId: Long, photoBytes: ByteArray): String =
+    override suspend fun savePhoto(entityType: String, entityId: Long, photoBytes: ByteArray): String =
         withContext(Dispatchers.IO) {
-            val fileName = "intervention_${interventionId}_${NSUUID().UUIDString}.jpg"
+            val fileName = "${entityType}_${entityId}_${NSUUID().UUIDString}.jpg"
             val filePath = "$photosDir/$fileName"
 
             val nsData = photoBytes.usePinned { pinned ->

@@ -9,6 +9,7 @@ import androidx.navigation.toRoute
 import com.hogarfix.ui.screens.home.HomeScreen
 import com.hogarfix.ui.screens.interventions.InterventionFormScreen
 import com.hogarfix.ui.screens.interventions.InterventionListScreen
+import com.hogarfix.ui.screens.inventory.HomeItemFormScreen
 import com.hogarfix.ui.screens.inventory.InventoryListScreen
 import com.hogarfix.ui.screens.professionals.ProfessionalListScreen
 import com.hogarfix.ui.screens.reminders.ReminderListScreen
@@ -59,7 +60,18 @@ fun AppNavHost(
         }
 
         composable<NavRoute.InventoryList> {
-            InventoryListScreen()
+            InventoryListScreen(
+                onNavigateToForm = { homeItemId ->
+                    navController.navigate(NavRoute.HomeItemForm(id = homeItemId))
+                }
+            )
+        }
+
+        composable<NavRoute.HomeItemForm> { backStackEntry ->
+            val route = backStackEntry.toRoute<NavRoute.HomeItemForm>()
+            HomeItemFormScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable<NavRoute.ProfessionalList> {

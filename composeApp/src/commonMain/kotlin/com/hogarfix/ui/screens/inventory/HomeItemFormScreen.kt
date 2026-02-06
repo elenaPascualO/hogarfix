@@ -1,4 +1,4 @@
-package com.hogarfix.ui.screens.interventions
+package com.hogarfix.ui.screens.inventory
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,11 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -22,7 +23,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,10 +42,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.hogarfix.domain.model.DoneBy
-import com.hogarfix.domain.model.Status
 import com.hogarfix.ui.components.CategorySelector
 import com.hogarfix.ui.components.DeleteConfirmationDialog
 import com.hogarfix.ui.components.PhotoGallery
@@ -62,23 +59,23 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InterventionFormScreen(
+fun HomeItemFormScreen(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: InterventionFormViewModel = koinViewModel()
+    viewModel: HomeItemFormViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
     val photoPicker = rememberPhotoPicker { result: PhotoPickerResult ->
-        viewModel.onEvent(InterventionFormEvent.PhotoAdded(result.bytes))
+        viewModel.onEvent(HomeItemFormEvent.PhotoAdded(result.bytes))
     }
 
     LaunchedEffect(Unit) {
         viewModel.navigationEvent.collect { event ->
             when (event) {
-                is InterventionFormViewModel.NavigationEvent.NavigateBack -> {
+                is HomeItemFormViewModel.NavigationEvent.NavigateBack -> {
                     onNavigateBack()
                 }
             }
@@ -88,7 +85,7 @@ fun InterventionFormScreen(
     LaunchedEffect(state.error) {
         state.error?.let { error ->
             snackbarHostState.showSnackbar(error)
-            viewModel.onEvent(InterventionFormEvent.ClearError)
+            viewModel.onEvent(HomeItemFormEvent.ClearError)
         }
     }
 
@@ -97,7 +94,7 @@ fun InterventionFormScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(if (state.isEditMode) "Editar intervencion" else "Nueva intervencion")
+                    Text(if (state.isEditMode) "Editar elemento" else "Nuevo elemento")
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
@@ -129,40 +126,31 @@ fun InterventionFormScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Title
+                // Name
                 OutlinedTextField(
-                    value = state.title,
-                    onValueChange = { viewModel.onEvent(InterventionFormEvent.TitleChanged(it)) },
-                    label = { Text("Titulo *") },
+                    value = state.name,
+                    onValueChange = { viewModel.onEvent(HomeItemFormEvent.NameChanged(it)) },
+                    label = { Text("Nombre *") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
 
-                // Description
+                // Brand
                 OutlinedTextField(
-                    value = state.description,
-                    onValueChange = { viewModel.onEvent(InterventionFormEvent.DescriptionChanged(it)) },
-                    label = { Text("Descripcion") },
+                    value = state.brand,
+                    onValueChange = { viewModel.onEvent(HomeItemFormEvent.BrandChanged(it)) },
+                    label = { Text("Marca") },
                     modifier = Modifier.fillMaxWidth(),
-                    minLines = 2,
-                    maxLines = 4
+                    singleLine = true
                 )
 
-                // Date
+                // Model
                 OutlinedTextField(
-                    value = state.date?.let { formatDate(it) } ?: "",
-                    onValueChange = {},
-                    label = { Text("Fecha *") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { viewModel.onEvent(InterventionFormEvent.ShowDatePicker) },
-                    enabled = false,
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = "Seleccionar fecha"
-                        )
-                    }
+                    value = state.model,
+                    onValueChange = { viewModel.onEvent(HomeItemFormEvent.ModelChanged(it)) },
+                    label = { Text("Modelo") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
                 )
 
                 // Category
@@ -172,51 +160,33 @@ fun InterventionFormScreen(
                 )
                 CategorySelector(
                     selectedCategory = state.category,
-                    onCategorySelected = { viewModel.onEvent(InterventionFormEvent.CategoryChanged(it)) }
+                    onCategorySelected = { viewModel.onEvent(HomeItemFormEvent.CategoryChanged(it)) }
                 )
 
-                // Status
-                Text(
-                    text = "Estado",
-                    style = MaterialTheme.typography.labelLarge
-                )
-                StatusSelector(
-                    selectedStatus = state.status,
-                    onStatusSelected = { viewModel.onEvent(InterventionFormEvent.StatusChanged(it)) }
+                // Purchase Date
+                DateFieldWithClear(
+                    label = "Fecha de compra",
+                    value = state.purchaseDate,
+                    onShowPicker = { viewModel.onEvent(HomeItemFormEvent.ShowPurchaseDatePicker) },
+                    onClear = { viewModel.onEvent(HomeItemFormEvent.ClearPurchaseDate) }
                 )
 
-                // Done By
-                Text(
-                    text = "Realizado por",
-                    style = MaterialTheme.typography.labelLarge
-                )
-                DoneBySelector(
-                    selectedDoneBy = state.doneBy,
-                    onDoneBySelected = { viewModel.onEvent(InterventionFormEvent.DoneByChanged(it)) }
+                // Warranty End Date
+                DateFieldWithClear(
+                    label = "Fin de garantia",
+                    value = state.warrantyEndDate,
+                    onShowPicker = { viewModel.onEvent(HomeItemFormEvent.ShowWarrantyDatePicker) },
+                    onClear = { viewModel.onEvent(HomeItemFormEvent.ClearWarrantyDate) }
                 )
 
-                // Costs
-                Row(
+                // Location
+                OutlinedTextField(
+                    value = state.location,
+                    onValueChange = { viewModel.onEvent(HomeItemFormEvent.LocationChanged(it)) },
+                    label = { Text("Ubicacion") },
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    OutlinedTextField(
-                        value = state.laborCost,
-                        onValueChange = { viewModel.onEvent(InterventionFormEvent.LaborCostChanged(it)) },
-                        label = { Text("Mano de obra (EUR)") },
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                        singleLine = true
-                    )
-                    OutlinedTextField(
-                        value = state.materialCost,
-                        onValueChange = { viewModel.onEvent(InterventionFormEvent.MaterialCostChanged(it)) },
-                        label = { Text("Materiales (EUR)") },
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                        singleLine = true
-                    )
-                }
+                    singleLine = true
+                )
 
                 // Photos
                 Text(
@@ -226,14 +196,14 @@ fun InterventionFormScreen(
                 PhotoGallery(
                     photoUris = state.photoUris,
                     onAddPhoto = { photoPicker.launch() },
-                    onRemovePhoto = { uri -> viewModel.onEvent(InterventionFormEvent.PhotoRemoved(uri)) },
+                    onRemovePhoto = { uri -> viewModel.onEvent(HomeItemFormEvent.PhotoRemoved(uri)) },
                     editable = true
                 )
 
                 // Notes
                 OutlinedTextField(
                     value = state.notes,
-                    onValueChange = { viewModel.onEvent(InterventionFormEvent.NotesChanged(it)) },
+                    onValueChange = { viewModel.onEvent(HomeItemFormEvent.NotesChanged(it)) },
                     label = { Text("Notas") },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 2,
@@ -244,23 +214,25 @@ fun InterventionFormScreen(
 
                 // Save button
                 Button(
-                    onClick = { viewModel.onEvent(InterventionFormEvent.Save) },
+                    onClick = { viewModel.onEvent(HomeItemFormEvent.Save) },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = state.isValid && !state.isSaving && !state.isDeleting
                 ) {
                     if (state.isSaving) {
                         CircularProgressIndicator(
-                            modifier = Modifier.padding(end = 8.dp),
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .size(20.dp),
                             strokeWidth = 2.dp
                         )
                     }
-                    Text(if (state.isEditMode) "Guardar cambios" else "Crear intervencion")
+                    Text(if (state.isEditMode) "Guardar cambios" else "Crear elemento")
                 }
 
                 // Delete button (only in edit mode)
                 if (state.isEditMode) {
                     OutlinedButton(
-                        onClick = { viewModel.onEvent(InterventionFormEvent.RequestDelete) },
+                        onClick = { viewModel.onEvent(HomeItemFormEvent.RequestDelete) },
                         modifier = Modifier.fillMaxWidth(),
                         enabled = !state.isSaving && !state.isDeleting,
                         colors = ButtonDefaults.outlinedButtonColors(
@@ -269,11 +241,13 @@ fun InterventionFormScreen(
                     ) {
                         if (state.isDeleting) {
                             CircularProgressIndicator(
-                                modifier = Modifier.padding(end = 8.dp),
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .size(20.dp),
                                 strokeWidth = 2.dp
                             )
                         }
-                        Text("Eliminar intervencion")
+                        Text("Eliminar elemento")
                     }
                 }
 
@@ -282,15 +256,15 @@ fun InterventionFormScreen(
         }
     }
 
-    // Date Picker Dialog
-    val currentDate = state.date
-    if (state.showDatePicker && currentDate != null) {
+    // Purchase Date Picker Dialog
+    if (state.showPurchaseDatePicker) {
+        val initialMillis = state.purchaseDate?.atStartOfDayIn(TimeZone.UTC)?.toEpochMilliseconds()
         val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = currentDate.atStartOfDayIn(TimeZone.UTC).toEpochMilliseconds()
+            initialSelectedDateMillis = initialMillis
         )
 
         DatePickerDialog(
-            onDismissRequest = { viewModel.onEvent(InterventionFormEvent.HideDatePicker) },
+            onDismissRequest = { viewModel.onEvent(HomeItemFormEvent.HidePurchaseDatePicker) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -298,7 +272,7 @@ fun InterventionFormScreen(
                             val date = Instant.fromEpochMilliseconds(millis)
                                 .toLocalDateTime(TimeZone.UTC)
                                 .date
-                            viewModel.onEvent(InterventionFormEvent.DateChanged(date))
+                            viewModel.onEvent(HomeItemFormEvent.PurchaseDateChanged(date))
                         }
                     }
                 ) {
@@ -306,7 +280,40 @@ fun InterventionFormScreen(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { viewModel.onEvent(InterventionFormEvent.HideDatePicker) }) {
+                TextButton(onClick = { viewModel.onEvent(HomeItemFormEvent.HidePurchaseDatePicker) }) {
+                    Text("Cancelar")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
+
+    // Warranty Date Picker Dialog
+    if (state.showWarrantyDatePicker) {
+        val initialMillis = state.warrantyEndDate?.atStartOfDayIn(TimeZone.UTC)?.toEpochMilliseconds()
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = initialMillis
+        )
+
+        DatePickerDialog(
+            onDismissRequest = { viewModel.onEvent(HomeItemFormEvent.HideWarrantyDatePicker) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { millis ->
+                            val date = Instant.fromEpochMilliseconds(millis)
+                                .toLocalDateTime(TimeZone.UTC)
+                                .date
+                            viewModel.onEvent(HomeItemFormEvent.WarrantyEndDateChanged(date))
+                        }
+                    }
+                ) {
+                    Text("Aceptar")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.onEvent(HomeItemFormEvent.HideWarrantyDatePicker) }) {
                     Text("Cancelar")
                 }
             }
@@ -318,69 +325,48 @@ fun InterventionFormScreen(
     // Delete confirmation dialog
     if (state.showDeleteConfirmation) {
         DeleteConfirmationDialog(
-            title = "Eliminar intervencion",
-            message = "¿Estas seguro de que quieres eliminar \"${state.title}\"? Esta accion no se puede deshacer.",
-            onConfirm = { viewModel.onEvent(InterventionFormEvent.ConfirmDelete) },
-            onDismiss = { viewModel.onEvent(InterventionFormEvent.CancelDelete) }
+            title = "Eliminar elemento",
+            message = "¿Estas seguro de que quieres eliminar \"${state.name}\"? Esta accion no se puede deshacer.",
+            onConfirm = { viewModel.onEvent(HomeItemFormEvent.ConfirmDelete) },
+            onDismiss = { viewModel.onEvent(HomeItemFormEvent.CancelDelete) }
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun StatusSelector(
-    selectedStatus: Status,
-    onStatusSelected: (Status) -> Unit,
+private fun DateFieldWithClear(
+    label: String,
+    value: LocalDate?,
+    onShowPicker: () -> Unit,
+    onClear: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Status.entries.forEach { status ->
-            FilterChip(
-                selected = status == selectedStatus,
-                onClick = { onStatusSelected(status) },
-                label = {
-                    Text(
-                        when (status) {
-                            Status.PENDING -> "Pendiente"
-                            Status.IN_PROGRESS -> "En curso"
-                            Status.COMPLETED -> "Completado"
-                        }
-                    )
+    OutlinedTextField(
+        value = value?.let { formatDate(it) } ?: "",
+        onValueChange = {},
+        label = { Text(label) },
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onShowPicker() },
+        enabled = false,
+        trailingIcon = {
+            Row {
+                if (value != null) {
+                    IconButton(onClick = onClear) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = "Limpiar fecha"
+                        )
+                    }
                 }
-            )
+                Icon(
+                    imageVector = Icons.Default.DateRange,
+                    contentDescription = "Seleccionar fecha",
+                    modifier = Modifier.padding(end = 12.dp)
+                )
+            }
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DoneBySelector(
-    selectedDoneBy: DoneBy,
-    onDoneBySelected: (DoneBy) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        DoneBy.entries.forEach { doneBy ->
-            FilterChip(
-                selected = doneBy == selectedDoneBy,
-                onClick = { onDoneBySelected(doneBy) },
-                label = {
-                    Text(
-                        when (doneBy) {
-                            DoneBy.MYSELF -> "Yo mismo"
-                            DoneBy.PROFESSIONAL -> "Profesional"
-                        }
-                    )
-                }
-            )
-        }
-    }
+    )
 }
 
 private fun formatDate(date: LocalDate): String {

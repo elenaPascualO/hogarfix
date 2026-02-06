@@ -22,6 +22,8 @@ data class InterventionFormState(
     val notes: String = "",
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
+    val isDeleting: Boolean = false,
+    val showDeleteConfirmation: Boolean = false,
     val error: String? = null,
     val showDatePicker: Boolean = false
 ) {

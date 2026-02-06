@@ -16,6 +16,9 @@ sealed interface NavRoute {
     data object InventoryList : NavRoute
 
     @Serializable
+    data class HomeItemForm(val id: Long? = null) : NavRoute
+
+    @Serializable
     data object ProfessionalList : NavRoute
 
     @Serializable

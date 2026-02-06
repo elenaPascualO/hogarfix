@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hogarfix.domain.model.Intervention
+import com.hogarfix.domain.usecase.DeleteInterventionUseCase
 import com.hogarfix.domain.usecase.GetInterventionsUseCase
 import com.hogarfix.domain.usecase.SaveInterventionUseCase
 import com.hogarfix.util.currentDate
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class InterventionFormViewModel(
     private val getInterventionsUseCase: GetInterventionsUseCase,
     private val saveInterventionUseCase: SaveInterventionUseCase,
+    private val deleteInterventionUseCase: DeleteInterventionUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -141,8 +143,33 @@ class InterventionFormViewModel(
                 saveIntervention()
             }
 
+            is InterventionFormEvent.RequestDelete -> {
+                _state.update { it.copy(showDeleteConfirmation = true) }
+            }
+
+            is InterventionFormEvent.ConfirmDelete -> {
+                deleteIntervention()
+            }
+
+            is InterventionFormEvent.CancelDelete -> {
+                _state.update { it.copy(showDeleteConfirmation = false) }
+            }
+
             is InterventionFormEvent.ClearError -> {
                 _state.update { it.copy(error = null) }
+            }
+        }
+    }
+
+    private fun deleteIntervention() {
+        val id = _state.value.id ?: return
+        viewModelScope.launch {
+            _state.update { it.copy(isDeleting = true, showDeleteConfirmation = false) }
+            try {
+                deleteInterventionUseCase(id)
+                _navigationEvent.emit(NavigationEvent.NavigateBack)
+            } catch (e: Exception) {
+                _state.update { it.copy(isDeleting = false, error = "Error al eliminar: ${e.message}") }
             }
         }
     }

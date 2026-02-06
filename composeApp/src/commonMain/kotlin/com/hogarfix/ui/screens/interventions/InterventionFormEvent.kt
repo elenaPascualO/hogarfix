@@ -29,5 +29,8 @@ sealed interface InterventionFormEvent {
     data object ShowDatePicker : InterventionFormEvent
     data object HideDatePicker : InterventionFormEvent
     data object Save : InterventionFormEvent
+    data object RequestDelete : InterventionFormEvent
+    data object ConfirmDelete : InterventionFormEvent
+    data object CancelDelete : InterventionFormEvent
     data object ClearError : InterventionFormEvent
 }

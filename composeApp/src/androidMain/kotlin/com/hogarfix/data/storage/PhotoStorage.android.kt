@@ -23,9 +23,9 @@ class AndroidPhotoStorage : PhotoStorage {
             return File(context.filesDir, "photos").also { it.mkdirs() }
         }
 
-    override suspend fun savePhoto(interventionId: Long, photoBytes: ByteArray): String =
+    override suspend fun savePhoto(entityType: String, entityId: Long, photoBytes: ByteArray): String =
         withContext(Dispatchers.IO) {
-            val fileName = "intervention_${interventionId}_${UUID.randomUUID()}.jpg"
+            val fileName = "${entityType}_${entityId}_${UUID.randomUUID()}.jpg"
             val file = File(photosDir, fileName)
             file.writeBytes(photoBytes)
             file.absolutePath

@@ -69,7 +69,7 @@ class InterventionRepositoryImpl(
     }
 
     override suspend fun savePhoto(interventionId: Long, photoBytes: ByteArray): String {
-        return photoStorage.savePhoto(interventionId, photoBytes)
+        return photoStorage.savePhoto("intervention", interventionId, photoBytes)
     }
 
     override suspend fun deletePhoto(photoUri: String) {
