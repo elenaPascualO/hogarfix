@@ -39,13 +39,9 @@
         android:fillColor="#4CAF50"
         android:pathData="M72,72 m-11,0 a11,11 0,1 1,22 0 a11,11 0,1 1,-22 0" />
 
-    <!-- Checkmark -->
+    <!-- Checkmark (solid filled polygon) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M66.5,74.5 L70,78 L78,68"
-        android:strokeWidth="2.5"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round" />
+        android:pathData="M69.5,77 L65,72.5 L66.8,70.7 L69.5,73.4 L77.2,65.7 L79,67.5 Z" />
 
 </vector>
