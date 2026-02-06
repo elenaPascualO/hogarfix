@@ -89,48 +89,51 @@
 
 ---
 
-### 3. Home Screen
+### 3. Home Screen (✅ IMPLEMENTADO)
 
 **Ruta:** `/home`
 
 ```
 ┌─────────────────────────────────┐
-│ HogarFix                    🔍  │
+│                                 │
+│  ¡Hola!                        │
+│  Resumen de tu hogar            │
+│                                 │
+│  ┌─────────────────────────┐    │
+│  │ 💰 Gasto este mes       │    │
+│  │    245€                 │    │
+│  │    2 trabajos pendientes│    │
+│  └─────────────────────────┘    │
+│                                 │
+│  Acciones rápidas               │
+│  (●) Trabajo  (●) Inventario   │
+│                (●) Recordatorio │
+│                                 │
+│  Actividad reciente  [Ver todos]│
+│  ┌─────────────────────────┐    │
+│  │ 🔧 Arreglo fuga         │    │
+│  └─────────────────────────┘    │
+│  ┌─────────────────────────┐    │
+│  │ ⚡ Cambio enchufe        │    │
+│  └─────────────────────────┘    │
+│  ┌─────────────────────────┐    │
+│  │ 🎨 Pintar habitación    │    │
+│  └─────────────────────────┘    │
+│                                 │
 ├─────────────────────────────────┤
-│                                 │
-│  📊 Resumen del mes             │
-│  ┌─────────────────────────┐    │
-│  │ Gasto total: 245€       │    │
-│  │ Intervenciones: 3       │    │
-│  │ Pendientes: 1           │    │
-│  └─────────────────────────┘    │
-│                                 │
-│  ⚠️ Próximos recordatorios      │
-│  ┌─────────────────────────┐    │
-│  │ 🔴 Revisión caldera (hoy)│   │
-│  │ 🟡 Filtros A/C (3 días) │    │
-│  └─────────────────────────┘    │
-│                                 │
-│  📸 Timeline reciente           │
-│  ┌─────────────────────────┐    │
-│  │ [Foto] [Foto] [Foto]    │    │
-│  │ Baño reformado - 15 Ene │    │
-│  └─────────────────────────┘    │
-│  ┌─────────────────────────┐    │
-│  │ [Foto]                  │    │
-│  │ Arreglo grifo - 10 Ene  │    │
-│  └─────────────────────────┘    │
-│                                 │
-│                           [+]   │ <- FAB
-├─────────────────────────────────┤
-│ 🏠  🔧  📦  👷  ⏰              │
+│ 📊  🔧  📦  👤  🔔              │
 └─────────────────────────────────┘
 ```
 
-**Componentes:**
-- Resumen de gastos del mes (Dashboard)
+**Componentes implementados:**
+- `SummaryCard` — Resumen de gastos del mes + pendientes
+- `QuickActionButton` — Botones circulares para acceso rápido
+- `InterventionCard` — 3 intervenciones más recientes
+- Navegación a otras secciones
+
+**Pendientes para futuro:**
+- Timeline visual con fotos antes/después
 - Alertas de recordatorios próximos/vencidos
-- Timeline visual con fotos de intervenciones recientes
 - FAB para crear nueva intervención
 - Barra de búsqueda
 

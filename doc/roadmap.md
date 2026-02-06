@@ -152,14 +152,16 @@
 
 ---
 
-## Fase 6 — Home + Diferenciadores UI (Semana 8)
+## Fase 6 — Home + Diferenciadores UI (Semana 8) 🔄 EN PROGRESO
 
 **Objetivo:** Experiencia completa con diferenciadores visuales
 
 | Tarea | Prioridad | Estado |
 |-------|-----------|--------|
-| **Pantalla Home con timeline visual de fotos** | Alta | ⬜ |
-| **Dashboard de gastos** (mensual/anual por categoría) | Alta | ⬜ |
+| **Pantalla Home con resumen y acciones rápidas** | Alta | ✅ |
+| **Dashboard de gastos** (gasto mensual) | Alta | ✅ |
+| **Rediseño UI terracota mediterráneo** | Alta | ✅ |
+| Pantalla Home con timeline visual de fotos | Alta | ⬜ |
 | **Onboarding con selector tipo vivienda** | Alta | ⬜ |
 | Búsqueda global por texto | Alta | ⬜ |
 | Filtros combinados (categoría, fecha, coste, estado) | Media | ⬜ |

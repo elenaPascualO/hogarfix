@@ -40,7 +40,7 @@ fun EmptyStateView(
             imageVector = icon,
             contentDescription = null,
             modifier = Modifier.size(80.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+            tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
         )
 
         Spacer(modifier = Modifier.height(24.dp))

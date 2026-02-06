@@ -5,7 +5,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 
 private val LightColorScheme = lightColorScheme(
     primary = Primary,
@@ -31,34 +30,50 @@ private val LightColorScheme = lightColorScheme(
     surfaceVariant = SurfaceVariant,
     onSurfaceVariant = OnSurfaceVariant,
     outline = Outline,
-    outlineVariant = OutlineVariant
+    outlineVariant = OutlineVariant,
+    surfaceTint = SurfaceTint,
+    surfaceBright = SurfaceBright,
+    surfaceDim = SurfaceDim,
+    surfaceContainerLowest = SurfaceContainerLowest,
+    surfaceContainerLow = SurfaceContainerLow,
+    surfaceContainer = SurfaceContainer,
+    surfaceContainerHigh = SurfaceContainerHigh,
+    surfaceContainerHighest = SurfaceContainerHighest
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF9ECAFF),
-    onPrimary = Color(0xFF003258),
-    primaryContainer = Color(0xFF00497D),
-    onPrimaryContainer = Color(0xFFD1E4FF),
-    secondary = Color(0xFFBBC7DB),
-    onSecondary = Color(0xFF253140),
-    secondaryContainer = Color(0xFF3B4858),
-    onSecondaryContainer = Color(0xFFD7E3F8),
-    tertiary = Color(0xFFD7BDE4),
-    onTertiary = Color(0xFF3B2948),
-    tertiaryContainer = Color(0xFF533F5F),
-    onTertiaryContainer = Color(0xFFF3DAFF),
-    error = Color(0xFFFFB4AB),
-    onError = Color(0xFF690005),
-    errorContainer = Color(0xFF93000A),
-    onErrorContainer = Color(0xFFFFDAD6),
-    background = Color(0xFF1A1C1E),
-    onBackground = Color(0xFFE2E2E6),
-    surface = Color(0xFF1A1C1E),
-    onSurface = Color(0xFFE2E2E6),
-    surfaceVariant = Color(0xFF43474E),
-    onSurfaceVariant = Color(0xFFC3C6CF),
-    outline = Color(0xFF8D9199),
-    outlineVariant = Color(0xFF43474E)
+    primary = DarkPrimary,
+    onPrimary = DarkOnPrimary,
+    primaryContainer = DarkPrimaryContainer,
+    onPrimaryContainer = DarkOnPrimaryContainer,
+    secondary = DarkSecondary,
+    onSecondary = DarkOnSecondary,
+    secondaryContainer = DarkSecondaryContainer,
+    onSecondaryContainer = DarkOnSecondaryContainer,
+    tertiary = DarkTertiary,
+    onTertiary = DarkOnTertiary,
+    tertiaryContainer = DarkTertiaryContainer,
+    onTertiaryContainer = DarkOnTertiaryContainer,
+    error = DarkError,
+    onError = DarkOnError,
+    errorContainer = DarkErrorContainer,
+    onErrorContainer = DarkOnErrorContainer,
+    background = DarkBackground,
+    onBackground = DarkOnBackground,
+    surface = DarkSurface,
+    onSurface = DarkOnSurface,
+    surfaceVariant = DarkSurfaceVariant,
+    onSurfaceVariant = DarkOnSurfaceVariant,
+    outline = DarkOutline,
+    outlineVariant = DarkOutlineVariant,
+    surfaceTint = DarkSurfaceTint,
+    surfaceBright = DarkSurfaceBright,
+    surfaceDim = DarkSurfaceDim,
+    surfaceContainerLowest = DarkSurfaceContainerLowest,
+    surfaceContainerLow = DarkSurfaceContainerLow,
+    surfaceContainer = DarkSurfaceContainer,
+    surfaceContainerHigh = DarkSurfaceContainerHigh,
+    surfaceContainerHighest = DarkSurfaceContainerHighest
 )
 
 @Composable
@@ -71,6 +86,7 @@ fun HogarFixTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        shapes = AppShapes,
         content = content
     )
 }

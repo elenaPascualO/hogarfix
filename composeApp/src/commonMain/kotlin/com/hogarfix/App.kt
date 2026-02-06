@@ -3,17 +3,18 @@ package com.hogarfix
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.automirrored.outlined.List
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Build
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.filled.Construction
+import androidx.compose.material.icons.filled.ContactPhone
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Inventory2
+import androidx.compose.material.icons.filled.NotificationsActive
+import androidx.compose.material.icons.outlined.Construction
+import androidx.compose.material.icons.outlined.ContactPhone
+import androidx.compose.material.icons.outlined.Dashboard
+import androidx.compose.material.icons.outlined.Inventory2
+import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -41,32 +43,32 @@ private val bottomNavItems = listOf(
     BottomNavItem(
         route = NavRoute.Home,
         label = "Inicio",
-        selectedIcon = Icons.Filled.Home,
-        unselectedIcon = Icons.Outlined.Home
+        selectedIcon = Icons.Filled.Dashboard,
+        unselectedIcon = Icons.Outlined.Dashboard
     ),
     BottomNavItem(
         route = NavRoute.InterventionList,
         label = "Trabajos",
-        selectedIcon = Icons.Filled.Build,
-        unselectedIcon = Icons.Outlined.Build
+        selectedIcon = Icons.Filled.Construction,
+        unselectedIcon = Icons.Outlined.Construction
     ),
     BottomNavItem(
         route = NavRoute.InventoryList,
         label = "Inventario",
-        selectedIcon = Icons.AutoMirrored.Filled.List,
-        unselectedIcon = Icons.AutoMirrored.Outlined.List
+        selectedIcon = Icons.Filled.Inventory2,
+        unselectedIcon = Icons.Outlined.Inventory2
     ),
     BottomNavItem(
         route = NavRoute.ProfessionalList,
         label = "Contactos",
-        selectedIcon = Icons.Filled.Person,
-        unselectedIcon = Icons.Outlined.Person
+        selectedIcon = Icons.Filled.ContactPhone,
+        unselectedIcon = Icons.Outlined.ContactPhone
     ),
     BottomNavItem(
         route = NavRoute.ReminderList,
         label = "Avisos",
-        selectedIcon = Icons.Filled.Notifications,
-        unselectedIcon = Icons.Outlined.Notifications
+        selectedIcon = Icons.Filled.NotificationsActive,
+        unselectedIcon = Icons.Outlined.NotificationsActive
     )
 )
 
@@ -80,7 +82,10 @@ fun App() {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
-                NavigationBar {
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    tonalElevation = 0.dp
+                ) {
                     bottomNavItems.forEach { item ->
                         val selected = currentDestination?.hierarchy?.any {
                             it.hasRoute(item.route::class)
@@ -89,12 +94,17 @@ fun App() {
                         NavigationBarItem(
                             selected = selected,
                             onClick = {
-                                navController.navigate(item.route) {
-                                    popUpTo(NavRoute.Home) {
-                                        saveState = true
+                                if (item.route == NavRoute.Home) {
+                                    // Para Home, volver al inicio del stack
+                                    navController.popBackStack(NavRoute.Home, inclusive = false)
+                                } else {
+                                    navController.navigate(item.route) {
+                                        popUpTo(NavRoute.Home) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
                                 }
                             },
                             icon = {

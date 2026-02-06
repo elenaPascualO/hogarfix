@@ -5,19 +5,29 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Build
-import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.AcUnit
+import androidx.compose.material.icons.outlined.CleaningServices
+import androidx.compose.material.icons.outlined.ElectricalServices
+import androidx.compose.material.icons.outlined.FormatPaint
+import androidx.compose.material.icons.outlined.Handyman
+import androidx.compose.material.icons.outlined.Kitchen
+import androidx.compose.material.icons.outlined.Layers
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Plumbing
+import androidx.compose.material.icons.outlined.Roofing
+import androidx.compose.material.icons.outlined.Window
+import androidx.compose.material.icons.outlined.Yard
+import androidx.compose.material.icons.outlined.Carpenter
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -64,7 +74,7 @@ private fun CategoryChip(
     val backgroundColor = if (isSelected) color else Color.Transparent
     val contentColor = if (isSelected) Color.White else color
 
-    Box(
+    Row(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(backgroundColor)
@@ -75,8 +85,15 @@ private fun CategoryChip(
             )
             .clickable(onClick = onClick)
             .padding(horizontal = 12.dp, vertical = 8.dp),
-        contentAlignment = Alignment.Center
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        Icon(
+            imageVector = getCategoryIcon(category),
+            contentDescription = null,
+            tint = contentColor,
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(6.dp))
         Text(
             text = getCategoryLabel(category),
             style = MaterialTheme.typography.labelMedium,
@@ -145,21 +162,21 @@ fun getCategoryLabel(category: Category): String {
     }
 }
 
-private fun getCategoryIcon(category: Category): ImageVector {
-    // Using generic icons for now - in production would use custom icons
+// Public function - used by other components (FilterChips, etc.)
+fun getCategoryIcon(category: Category): ImageVector {
     return when (category) {
-        Category.PLUMBING -> Icons.Outlined.Build
-        Category.ELECTRICAL -> Icons.Outlined.Build
-        Category.APPLIANCES -> Icons.Outlined.Home
-        Category.PAINTING -> Icons.Outlined.Build
-        Category.LOCKSMITH -> Icons.Outlined.Build
-        Category.HVAC -> Icons.Outlined.Home
-        Category.CARPENTRY -> Icons.Outlined.Build
-        Category.GARDEN -> Icons.Outlined.Home
-        Category.CLEANING -> Icons.Outlined.Home
-        Category.ROOFING -> Icons.Outlined.Home
-        Category.FLOORING -> Icons.Outlined.Home
-        Category.WINDOWS_DOORS -> Icons.Outlined.Home
-        Category.OTHER -> Icons.Outlined.Build
+        Category.PLUMBING -> Icons.Outlined.Plumbing
+        Category.ELECTRICAL -> Icons.Outlined.ElectricalServices
+        Category.APPLIANCES -> Icons.Outlined.Kitchen
+        Category.PAINTING -> Icons.Outlined.FormatPaint
+        Category.LOCKSMITH -> Icons.Outlined.Lock
+        Category.HVAC -> Icons.Outlined.AcUnit
+        Category.CARPENTRY -> Icons.Outlined.Carpenter
+        Category.GARDEN -> Icons.Outlined.Yard
+        Category.CLEANING -> Icons.Outlined.CleaningServices
+        Category.ROOFING -> Icons.Outlined.Roofing
+        Category.FLOORING -> Icons.Outlined.Layers
+        Category.WINDOWS_DOORS -> Icons.Outlined.Window
+        Category.OTHER -> Icons.Outlined.Handyman
     }
 }

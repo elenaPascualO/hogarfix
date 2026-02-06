@@ -104,6 +104,26 @@ App que:
 
 ---
 
+## Rediseño UI (COMPLETADO ✅)
+
+Implementado el rediseño completo de la interfaz según `doc/redesigning-plan.md`:
+
+- [x] Nueva paleta terracota mediterránea (Color.kt)
+- [x] Sistema de shapes redondeados (Shape.kt - nuevo)
+- [x] Tipografía SemiBold mejorada (Type.kt)
+- [x] Dashboard con 3 secciones (HomeScreen, HomeViewModel, HomeState)
+- [x] Componentes nuevos: SummaryCard, QuickActionButton
+- [x] CategorySelector con 13 iconos específicos
+- [x] StatusChip con icono + fondo pastel
+- [x] InterventionCard con accent bar lateral
+- [x] EmptyStateView con tinte cálido
+- [x] Bottom nav con iconos descriptivos
+- [x] FilterChips con iconos de categoría
+
+**Nota:** Funciona en Android. iOS tiene problemas de compatibilidad de versiones pre-existentes (lifecycle + navigation + koin).
+
+---
+
 ## Notas
 
 - Requiere Java 17+ para compilar

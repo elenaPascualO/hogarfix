@@ -9,6 +9,7 @@ import com.hogarfix.domain.repository.InterventionRepository
 import com.hogarfix.domain.usecase.DeleteInterventionUseCase
 import com.hogarfix.domain.usecase.GetInterventionsUseCase
 import com.hogarfix.domain.usecase.SaveInterventionUseCase
+import com.hogarfix.ui.screens.home.HomeViewModel
 import com.hogarfix.ui.screens.interventions.InterventionFormViewModel
 import com.hogarfix.ui.screens.interventions.InterventionListViewModel
 import org.koin.core.context.startKoin
@@ -21,6 +22,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val appModule = module {
+    viewModelOf(::HomeViewModel)
     viewModelOf(::InterventionListViewModel)
     viewModelOf(::InterventionFormViewModel)
 }

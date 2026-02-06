@@ -24,7 +24,23 @@ fun AppNavHost(
         modifier = modifier
     ) {
         composable<NavRoute.Home> {
-            HomeScreen()
+            HomeScreen(
+                onNavigateToInterventions = {
+                    navController.navigate(NavRoute.InterventionList)
+                },
+                onNavigateToInventory = {
+                    navController.navigate(NavRoute.InventoryList)
+                },
+                onNavigateToReminders = {
+                    navController.navigate(NavRoute.ReminderList)
+                },
+                onNavigateToForm = {
+                    navController.navigate(NavRoute.InterventionForm(id = null))
+                },
+                onNavigateToDetail = { interventionId ->
+                    navController.navigate(NavRoute.InterventionForm(id = interventionId))
+                }
+            )
         }
 
         composable<NavRoute.InterventionList> {
