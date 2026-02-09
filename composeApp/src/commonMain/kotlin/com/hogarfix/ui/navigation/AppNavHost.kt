@@ -13,6 +13,7 @@ import com.hogarfix.ui.screens.inventory.HomeItemFormScreen
 import com.hogarfix.ui.screens.inventory.InventoryListScreen
 import com.hogarfix.ui.screens.professionals.ProfessionalFormScreen
 import com.hogarfix.ui.screens.professionals.ProfessionalListScreen
+import com.hogarfix.ui.screens.reminders.ReminderFormScreen
 import com.hogarfix.ui.screens.reminders.ReminderListScreen
 
 @Composable
@@ -91,7 +92,18 @@ fun AppNavHost(
         }
 
         composable<NavRoute.ReminderList> {
-            ReminderListScreen()
+            ReminderListScreen(
+                onNavigateToForm = { reminderId ->
+                    navController.navigate(NavRoute.ReminderForm(id = reminderId))
+                }
+            )
+        }
+
+        composable<NavRoute.ReminderForm> { backStackEntry ->
+            val route = backStackEntry.toRoute<NavRoute.ReminderForm>()
+            ReminderFormScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

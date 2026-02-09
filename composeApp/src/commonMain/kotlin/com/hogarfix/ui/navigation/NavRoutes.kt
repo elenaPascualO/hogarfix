@@ -26,6 +26,9 @@ sealed interface NavRoute {
 
     @Serializable
     data object ReminderList : NavRoute
+
+    @Serializable
+    data class ReminderForm(val id: Long? = null) : NavRoute
 }
 
 enum class BottomNavItem(

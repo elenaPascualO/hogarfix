@@ -1,6 +1,6 @@
 # HogarFix — Tareas Actuales
 
-> **Fase actual:** Fase 4 — Profesionales (COMPLETADA)
+> **Fase actual:** Fase 5 — Recordatorios (COMPLETADA)
 
 ---
 
@@ -247,16 +247,73 @@ App que:
 
 ---
 
-## Siguiente: Fase 5 — Recordatorios + Localizacion Espana
+## Fase 5 — Recordatorios de Mantenimiento (COMPLETADA ✅)
 
-Tareas de la Fase 5:
+**Objetivo:** Sistema de recordatorios con recurrencia e integracion en dashboard
 
-- [ ] Pantalla lista de recordatorios
-- [ ] Crear recordatorio: titulo, intervalo, elemento vinculado
+### Data Layer
+
+- [x] `ReminderMapper` (Entity ↔ Domain)
+- [x] `ReminderRepository` interface
+- [x] `ReminderRepositoryImpl` con complete() que recalcula nextDueDate
+
+### Domain Layer
+
+- [x] `GetRemindersUseCase` (getAllActive, getOverdue, getUpcoming, getByHomeItem, getById)
+- [x] `SaveReminderUseCase`
+- [x] `DeleteReminderUseCase`
+- [x] `CompleteReminderUseCase`
+
+### UI Components
+
+- [x] `ReminderCard` con urgency dot (rojo/amarillo/verde), boton completar
+- [x] `CreateReminderDialog` con picker intervalo (dias/semanas/meses/anos)
+
+### Screens
+
+- [x] `ReminderListScreen` con 3 secciones (Vencidos/Proximos/Programados)
+- [x] `ReminderListViewModel` con State/Event pattern
+- [x] `ReminderFormScreen` para crear/editar (titulo, descripcion, categoria, intervalo, fecha, activo)
+- [x] `ReminderFormViewModel` con decomposeInterval()
+
+### Integracion
+
+- [x] Dialog "Programar recordatorio?" tras guardar nueva intervencion
+- [x] Dashboard: alerta roja de vencidos + seccion proximos mantenimientos
+- [x] Selector de profesional en formulario de intervencion (dropdown cuando DoneBy=PROFESSIONAL)
+
+### Navigation & DI
+
+- [x] Ruta `ReminderForm(id: Long?)` en NavRoutes
+- [x] Navegacion conectada en AppNavHost
+- [x] Dependencias registradas en AppModule (Koin)
+
+---
+
+## Entregable de Fase 5
+
+App que:
+- [x] Lista recordatorios en 3 secciones con colores de urgencia
+- [x] Filtra por categoria
+- [x] Crea recordatorios con intervalo configurable (dias/semanas/meses/anos)
+- [x] Edita recordatorios existentes
+- [x] Elimina recordatorios (swipe y desde formulario)
+- [x] Completa recordatorios y recalcula proxima fecha
+- [x] Pregunta al usuario si quiere programar recordatorio tras crear intervencion
+- [x] Muestra alertas de vencidos y proximos en el dashboard
+- [x] Permite vincular un profesional a una intervencion
+
+---
+
+## Siguiente: Fase 6 — Home + Diferenciadores UI + Localizacion Espana
+
+Tareas pendientes:
+
 - [ ] Notificaciones locales (expect/actual)
-- [ ] Logica de recurrencia (cada X dias/meses)
-- [ ] Marcar como completado → recalcular proxima fecha
-- [ ] Indicadores visuales (verde/amarillo/rojo)
 - [ ] Plantillas recordatorios Espana (ITE, revision gas, caldera, etc.)
+- [ ] Onboarding con selector tipo vivienda
+- [ ] Timeline visual fotos antes/despues
+- [ ] Busqueda global por texto
+- [ ] Selector de HomeItem vinculado en formulario de intervencion
 
-**Entregable:** Sistema de recordatorios funcional con plantillas para Espana
+**Entregable:** App lista para testing con todos los diferenciadores core

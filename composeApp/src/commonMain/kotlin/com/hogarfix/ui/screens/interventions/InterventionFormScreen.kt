@@ -21,7 +21,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,7 +43,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import com.hogarfix.domain.model.DoneBy
 import com.hogarfix.domain.model.Status
 import com.hogarfix.ui.components.CategorySelector
+import com.hogarfix.ui.components.CreateReminderDialog
 import com.hogarfix.ui.components.DeleteConfirmationDialog
 import com.hogarfix.ui.components.PhotoGallery
 import com.hogarfix.ui.components.PhotoPickerResult
@@ -70,6 +77,7 @@ fun InterventionFormScreen(
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
+    var showReminderDialog by remember { mutableStateOf(false) }
 
     val photoPicker = rememberPhotoPicker { result: PhotoPickerResult ->
         viewModel.onEvent(InterventionFormEvent.PhotoAdded(result.bytes))
@@ -80,6 +88,9 @@ fun InterventionFormScreen(
             when (event) {
                 is InterventionFormViewModel.NavigationEvent.NavigateBack -> {
                     onNavigateBack()
+                }
+                is InterventionFormViewModel.NavigationEvent.ShowReminderDialog -> {
+                    showReminderDialog = true
                 }
             }
         }
@@ -194,6 +205,17 @@ fun InterventionFormScreen(
                     selectedDoneBy = state.doneBy,
                     onDoneBySelected = { viewModel.onEvent(InterventionFormEvent.DoneByChanged(it)) }
                 )
+
+                // Professional selector (only when done by professional)
+                if (state.doneBy == DoneBy.PROFESSIONAL) {
+                    ProfessionalSelector(
+                        professionals = state.professionals,
+                        selectedProfessional = state.selectedProfessional,
+                        onProfessionalSelected = { professionalId ->
+                            viewModel.onEvent(InterventionFormEvent.ProfessionalChanged(professionalId))
+                        }
+                    )
+                }
 
                 // Costs
                 Row(
@@ -324,6 +346,20 @@ fun InterventionFormScreen(
             onDismiss = { viewModel.onEvent(InterventionFormEvent.CancelDelete) }
         )
     }
+
+    // Reminder dialog after saving new intervention
+    if (showReminderDialog) {
+        CreateReminderDialog(
+            onConfirm = { intervalDays ->
+                showReminderDialog = false
+                viewModel.createReminder(intervalDays)
+            },
+            onDismiss = {
+                showReminderDialog = false
+                viewModel.skipReminder()
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -379,6 +415,80 @@ private fun DoneBySelector(
                     )
                 }
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ProfessionalSelector(
+    professionals: List<com.hogarfix.domain.model.Professional>,
+    selectedProfessional: com.hogarfix.domain.model.Professional?,
+    onProfessionalSelected: (Long?) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it },
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = selectedProfessional?.name ?: "",
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Profesional") },
+            placeholder = { Text("Seleccionar profesional") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .fillMaxWidth(),
+            singleLine = true
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            // Option to clear selection
+            if (selectedProfessional != null) {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            "Sin asignar",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    onClick = {
+                        onProfessionalSelected(null)
+                        expanded = false
+                    }
+                )
+            }
+
+            if (professionals.isEmpty()) {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            "No hay profesionales registrados",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    onClick = { expanded = false },
+                    enabled = false
+                )
+            } else {
+                professionals.forEach { professional ->
+                    DropdownMenuItem(
+                        text = { Text(professional.name) },
+                        onClick = {
+                            onProfessionalSelected(professional.id)
+                            expanded = false
+                        }
+                    )
+                }
+            }
         }
     }
 }

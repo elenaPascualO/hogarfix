@@ -122,21 +122,24 @@
 
 ---
 
-## Fase 5 — Recordatorios + Localización España (Semana 7)
+## Fase 5 — Recordatorios de Mantenimiento (Semana 7) ✅ COMPLETADA
 
-**Objetivo:** Mantenimientos programados con notificaciones + plantillas localizadas
+**Objetivo:** Sistema de recordatorios de mantenimiento con recurrencia
 
 | Tarea | Prioridad | Estado |
 |-------|-----------|--------|
-| Pantalla lista de recordatorios | Alta | ⬜ |
-| Crear recordatorio: título, intervalo, elemento vinculado | Alta | ⬜ |
+| Pantalla lista de recordatorios (3 secciones: vencidos/próximos/programados) | Alta | ✅ |
+| Crear/editar recordatorio: título, intervalo configurable, categoría | Alta | ✅ |
+| Lógica de recurrencia (cada X días/semanas/meses/años) | Alta | ✅ |
+| Marcar como completado → recalcular próxima fecha | Media | ✅ |
+| Indicadores visuales (verde/amarillo/rojo) | Media | ✅ |
+| Dialog tras crear intervención: "¿Programar recordatorio?" | Alta | ✅ |
+| Dashboard: alerta de vencidos + próximos mantenimientos | Alta | ✅ |
+| Selector de profesional en formulario de intervención | Media | ✅ |
 | Notificaciones locales (expect/actual) | Alta | ⬜ |
-| Lógica de recurrencia (cada X días/meses) | Alta | ⬜ |
-| Marcar como completado → recalcular próxima fecha | Media | ⬜ |
-| Indicadores visuales (verde/amarillo/rojo) | Media | ⬜ |
-| **Plantillas recordatorios España** (ver detalle abajo) | Alta | ⬜ |
+| **Plantillas recordatorios España** (ITE, gas, caldera, etc.) | Alta | ⬜ |
 
-**Diferenciador incluido:** ✅ Localización profunda España
+**Nota:** Notificaciones push y plantillas España se implementarán en fase posterior.
 
 ### Recordatorios predefinidos España
 
@@ -149,7 +152,7 @@
 | Boletín eléctrico | Al cambiar instalación | Electricidad |
 | Certificado energético | Al vender/alquilar | Otros |
 
-**Entregable:** Sistema de recordatorios funcional con plantillas para España
+**Entregable:** Sistema de recordatorios funcional con CRUD completo, integración en dashboard y flujo post-intervención
 
 ---
 
@@ -326,9 +329,10 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 
 ## Próximos Pasos
 
-1. **Iniciar Fase 5:** Recordatorios + Localización España
-2. **Definir identidad:** Elegir nombre final y crear branding
-3. **Diseñar UI:** Wireframes/mockups antes de codificar
+1. **Continuar Fase 6:** Home + Diferenciadores UI + Localización España
+2. **Notificaciones locales:** expect/actual para Android e iOS
+3. **Plantillas España:** ITE, revisión gas, caldera, etc.
+4. **Onboarding:** Selector tipo vivienda con plantillas predefinidas
 
 ---
 

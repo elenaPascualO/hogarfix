@@ -131,9 +131,12 @@
 - `InterventionCard` — 3 intervenciones más recientes
 - Navegación a otras secciones
 
+**Implementado en Fase 5:**
+- ✅ Alertas de recordatorios vencidos (tarjeta roja con tap a Avisos)
+- ✅ Sección "Próximos mantenimientos" con hasta 3 mini-cards
+
 **Pendientes para futuro:**
 - Timeline visual con fotos antes/después
-- Alertas de recordatorios próximos/vencidos
 - FAB para crear nueva intervención
 - Barra de búsqueda
 
@@ -333,7 +336,7 @@
 
 ---
 
-### 8. Lista de Recordatorios
+### 8. Lista de Recordatorios (✅ IMPLEMENTADO)
 
 **Ruta:** `/reminders`
 
@@ -377,6 +380,17 @@
 - 🟢 Verde: Al día
 
 **Acción "Completar":** Marca como hecho y recalcula próxima fecha.
+
+**Funcionalidades implementadas:**
+- Lista con `ReminderCard` y urgency dot + accent bar de color categoría
+- 3 secciones: Vencidos (rojo), Próximos (amarillo), Programados (verde)
+- Filtros por categoría (chips horizontales)
+- Swipe-to-delete para eliminar
+- Botón completar que recalcula nextDueDate
+- FAB para crear nuevo recordatorio
+- Estado vacío con CTA
+- Formulario con picker de intervalo (número + unidad: días/semanas/meses/años)
+- Dialog "Programar recordatorio?" tras guardar nueva intervención
 
 ---
 
@@ -425,7 +439,8 @@
 | `HomeItemCard` | Tarjeta de elemento del hogar | ✅ |
 | `ProfessionalCard` | Tarjeta de profesional | ✅ |
 | `RatingBar` | Estrellas 1-5 (display + interactivo) | ✅ |
-| `ReminderCard` | Tarjeta de recordatorio | ⬜ |
+| `ReminderCard` | Tarjeta de recordatorio con urgency dot | ✅ |
+| `CreateReminderDialog` | Dialog post-intervención para crear recordatorio | ✅ |
 | `CategorySelector` | Selector de categorías con chips | ✅ |
 | `CategoryIcon` | Icono con color de categoría | ✅ |
 | `StatusChip` | Badge de estado con icono + color | ✅ |

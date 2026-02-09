@@ -4,15 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hogarfix.domain.model.Status
 import com.hogarfix.domain.usecase.GetInterventionsUseCase
+import com.hogarfix.domain.usecase.GetRemindersUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.hogarfix.util.currentDate
 
 class HomeViewModel(
-    private val getInterventionsUseCase: GetInterventionsUseCase
+    private val getInterventionsUseCase: GetInterventionsUseCase,
+    private val getRemindersUseCase: GetRemindersUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -24,7 +27,11 @@ class HomeViewModel(
 
     private fun loadDashboardData() {
         viewModelScope.launch {
-            getInterventionsUseCase().collect { interventions ->
+            combine(
+                getInterventionsUseCase(),
+                getRemindersUseCase.getOverdue(),
+                getRemindersUseCase.getUpcoming(7)
+            ) { interventions, overdueReminders, upcomingReminders ->
                 val today = currentDate()
                 val currentMonth = today.monthNumber
                 val currentYear = today.year
@@ -42,14 +49,16 @@ class HomeViewModel(
                     .sortedByDescending { it.date }
                     .take(3)
 
-                _state.update {
-                    it.copy(
-                        monthlyExpense = monthlyExpense,
-                        pendingCount = pendingCount,
-                        recentInterventions = recentInterventions,
-                        isLoading = false
-                    )
-                }
+                HomeState(
+                    monthlyExpense = monthlyExpense,
+                    pendingCount = pendingCount,
+                    recentInterventions = recentInterventions,
+                    overdueRemindersCount = overdueReminders.size,
+                    upcomingReminders = upcomingReminders.take(3),
+                    isLoading = false
+                )
+            }.collect { newState ->
+                _state.value = newState
             }
         }
     }

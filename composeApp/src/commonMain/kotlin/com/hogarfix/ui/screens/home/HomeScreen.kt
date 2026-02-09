@@ -1,5 +1,7 @@
 package com.hogarfix.ui.screens.home
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -16,7 +20,11 @@ import androidx.compose.material.icons.outlined.AttachMoney
 import androidx.compose.material.icons.outlined.Construction
 import androidx.compose.material.icons.outlined.Inventory2
 import androidx.compose.material.icons.outlined.NotificationsActive
+import androidx.compose.material.icons.outlined.Warning
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -28,7 +36,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hogarfix.ui.components.InterventionCard
 import com.hogarfix.ui.components.QuickActionButton
+import com.hogarfix.ui.components.ReminderCard
 import com.hogarfix.ui.components.SummaryCard
+import com.hogarfix.ui.theme.ReminderColors
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -118,6 +128,72 @@ fun HomeScreen(
                     icon = Icons.Outlined.NotificationsActive,
                     label = "Recordatorio",
                     onClick = onNavigateToReminders
+                )
+            }
+        }
+
+        // Overdue reminders alert
+        if (state.overdueRemindersCount > 0) {
+            item {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = onNavigateToReminders),
+                    colors = CardDefaults.cardColors(
+                        containerColor = ReminderColors.Overdue.copy(alpha = 0.12f)
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Warning,
+                            contentDescription = null,
+                            tint = ReminderColors.Overdue,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "${state.overdueRemindersCount} mantenimiento${if (state.overdueRemindersCount > 1) "s" else ""} vencido${if (state.overdueRemindersCount > 1) "s" else ""}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = ReminderColors.Overdue
+                        )
+                    }
+                }
+            }
+        }
+
+        // Upcoming reminders
+        if (state.upcomingReminders.isNotEmpty()) {
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Proximos mantenimientos",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+
+                    TextButton(onClick = onNavigateToReminders) {
+                        Text(text = "Ver todos")
+                    }
+                }
+            }
+
+            items(
+                items = state.upcomingReminders,
+                key = { "reminder_${it.id}" }
+            ) { reminder ->
+                ReminderCard(
+                    reminder = reminder,
+                    onClick = { onNavigateToReminders() },
+                    onComplete = { /* handled from reminders screen */ }
                 )
             }
         }

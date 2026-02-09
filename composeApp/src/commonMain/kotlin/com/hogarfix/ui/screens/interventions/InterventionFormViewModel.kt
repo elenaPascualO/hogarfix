@@ -3,12 +3,18 @@ package com.hogarfix.ui.screens.interventions
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hogarfix.domain.model.Category
 import com.hogarfix.domain.model.Intervention
+import com.hogarfix.domain.model.Reminder
 import com.hogarfix.domain.usecase.DeleteInterventionUseCase
 import com.hogarfix.domain.usecase.GetInterventionsUseCase
+import com.hogarfix.domain.usecase.GetProfessionalsUseCase
 import com.hogarfix.domain.usecase.SaveInterventionUseCase
+import com.hogarfix.domain.usecase.SaveReminderUseCase
 import com.hogarfix.util.currentDate
 import com.hogarfix.util.currentInstant
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.plus
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -22,6 +28,8 @@ class InterventionFormViewModel(
     private val getInterventionsUseCase: GetInterventionsUseCase,
     private val saveInterventionUseCase: SaveInterventionUseCase,
     private val deleteInterventionUseCase: DeleteInterventionUseCase,
+    private val saveReminderUseCase: SaveReminderUseCase,
+    private val getProfessionalsUseCase: GetProfessionalsUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -34,7 +42,16 @@ class InterventionFormViewModel(
     val navigationEvent: SharedFlow<NavigationEvent> = _navigationEvent.asSharedFlow()
 
     init {
+        loadProfessionals()
         interventionId?.let { loadIntervention(it) }
+    }
+
+    private fun loadProfessionals() {
+        viewModelScope.launch {
+            getProfessionalsUseCase().collect { professionals ->
+                _state.update { it.copy(professionals = professionals) }
+            }
+        }
     }
 
     private fun loadIntervention(id: Long) {
@@ -101,7 +118,16 @@ class InterventionFormViewModel(
             }
 
             is InterventionFormEvent.DoneByChanged -> {
-                _state.update { it.copy(doneBy = event.doneBy) }
+                _state.update {
+                    it.copy(
+                        doneBy = event.doneBy,
+                        professionalId = if (event.doneBy == com.hogarfix.domain.model.DoneBy.MYSELF) null else it.professionalId
+                    )
+                }
+            }
+
+            is InterventionFormEvent.ProfessionalChanged -> {
+                _state.update { it.copy(professionalId = event.professionalId) }
             }
 
             is InterventionFormEvent.NotesChanged -> {
@@ -220,14 +246,58 @@ class InterventionFormViewModel(
                 }
 
                 _state.update { it.copy(isSaving = false) }
-                _navigationEvent.emit(NavigationEvent.NavigateBack)
+                // Show reminder dialog only for new interventions
+                if (currentState.id == null) {
+                    _navigationEvent.emit(
+                        NavigationEvent.ShowReminderDialog(
+                            interventionTitle = currentState.title.trim(),
+                            category = currentState.category!!,
+                            homeItemId = currentState.homeItemId
+                        )
+                    )
+                } else {
+                    _navigationEvent.emit(NavigationEvent.NavigateBack)
+                }
             } catch (e: Exception) {
                 _state.update { it.copy(isSaving = false, error = "Error al guardar: ${e.message}") }
             }
         }
     }
 
+    fun createReminder(intervalDays: Int) {
+        val currentState = _state.value
+        viewModelScope.launch {
+            try {
+                val today = currentDate()
+                val reminder = Reminder(
+                    title = currentState.title.trim(),
+                    category = currentState.category!!,
+                    homeItemId = currentState.homeItemId,
+                    intervalDays = intervalDays,
+                    nextDueDate = today.plus(intervalDays, DateTimeUnit.DAY),
+                    isActive = true,
+                    createdAt = currentInstant()
+                )
+                saveReminderUseCase(reminder)
+            } catch (_: Exception) {
+                // Silent fail — reminder creation is non-critical
+            }
+            _navigationEvent.emit(NavigationEvent.NavigateBack)
+        }
+    }
+
+    fun skipReminder() {
+        viewModelScope.launch {
+            _navigationEvent.emit(NavigationEvent.NavigateBack)
+        }
+    }
+
     sealed interface NavigationEvent {
         data object NavigateBack : NavigationEvent
+        data class ShowReminderDialog(
+            val interventionTitle: String,
+            val category: Category,
+            val homeItemId: Long?
+        ) : NavigationEvent
     }
 }
