@@ -22,6 +22,9 @@ sealed interface NavRoute {
     data object ProfessionalList : NavRoute
 
     @Serializable
+    data class ProfessionalForm(val id: Long? = null) : NavRoute
+
+    @Serializable
     data object ReminderList : NavRoute
 }
 

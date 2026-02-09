@@ -11,6 +11,7 @@ import com.hogarfix.ui.screens.interventions.InterventionFormScreen
 import com.hogarfix.ui.screens.interventions.InterventionListScreen
 import com.hogarfix.ui.screens.inventory.HomeItemFormScreen
 import com.hogarfix.ui.screens.inventory.InventoryListScreen
+import com.hogarfix.ui.screens.professionals.ProfessionalFormScreen
 import com.hogarfix.ui.screens.professionals.ProfessionalListScreen
 import com.hogarfix.ui.screens.reminders.ReminderListScreen
 
@@ -75,7 +76,18 @@ fun AppNavHost(
         }
 
         composable<NavRoute.ProfessionalList> {
-            ProfessionalListScreen()
+            ProfessionalListScreen(
+                onNavigateToForm = { professionalId ->
+                    navController.navigate(NavRoute.ProfessionalForm(id = professionalId))
+                }
+            )
+        }
+
+        composable<NavRoute.ProfessionalForm> { backStackEntry ->
+            val route = backStackEntry.toRoute<NavRoute.ProfessionalForm>()
+            ProfessionalFormScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable<NavRoute.ReminderList> {

@@ -7,7 +7,7 @@ data class Professional(
     val name: String,
     val phone: String? = null,
     val email: String? = null,
-    val specialty: String,
+    val specialty: Category,
     val personalRating: Int? = null,
     val notes: String? = null,
     val createdAt: Instant
