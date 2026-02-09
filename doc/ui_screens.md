@@ -290,27 +290,29 @@
 
 ---
 
-### 7. Lista de Profesionales
+### 7. Lista de Profesionales (✅ IMPLEMENTADO)
 
 **Ruta:** `/professionals`
 
 ```
 ┌─────────────────────────────────┐
-│ Profesionales               🔍  │
+│ Profesionales                    │
+├─────────────────────────────────┤
+│ [Todos] [Fontanería] [Elec...] │
 ├─────────────────────────────────┤
 │                                 │
 │ ┌─────────────────────────────┐ │
-│ │ 👷 Juan Pérez               │ │
-│ │ Fontanería                  │ │
-│ │ ⭐⭐⭐⭐⭐ · 3 trabajos       │ │
-│ │ [📞] [💬]                   │ │
+│ │▌ [Icon] Juan Pérez      📞 │ │
+│ │▌        Fontanería          │ │
+│ │▌        ⭐⭐⭐⭐⭐              │ │
+│ │▌        🔧 3 intervenciones │ │
 │ └─────────────────────────────┘ │
 │                                 │
 │ ┌─────────────────────────────┐ │
-│ │ 🏢 Electricidad Madrid SL   │ │
-│ │ Electricidad                │ │
-│ │ ⭐⭐⭐⭐ · 1 trabajo          │ │
-│ │ [📞] [💬]                   │ │
+│ │▌ [Icon] Electricidad SL 📞 │ │
+│ │▌        Electricidad        │ │
+│ │▌        ⭐⭐⭐⭐               │ │
+│ │▌        🔧 1 intervencion   │ │
 │ └─────────────────────────────┘ │
 │                                 │
 │                           [+]   │
@@ -319,9 +321,15 @@
 └─────────────────────────────────┘
 ```
 
-**Acciones rápidas:**
-- 📞 Click to call
-- 💬 Click to WhatsApp
+**Funcionalidades implementadas:**
+- Lista con `ProfessionalCard` y accent bar de color categoria
+- Filtros por categoria/especialidad (chips horizontales)
+- `RatingBar` con estrellas 1-5
+- Contador de intervenciones asociadas
+- Swipe-to-delete para eliminar
+- Boton llamar (icono telefono azul) con intent nativo
+- FAB para crear nuevo profesional
+- Estado vacio con CTA
 
 ---
 
@@ -415,7 +423,8 @@
 |------------|-----|--------|
 | `InterventionCard` | Tarjeta de intervención en listas | ✅ |
 | `HomeItemCard` | Tarjeta de elemento del hogar | ✅ |
-| `ProfessionalCard` | Tarjeta de profesional | ⬜ |
+| `ProfessionalCard` | Tarjeta de profesional | ✅ |
+| `RatingBar` | Estrellas 1-5 (display + interactivo) | ✅ |
 | `ReminderCard` | Tarjeta de recordatorio | ⬜ |
 | `CategorySelector` | Selector de categorías con chips | ✅ |
 | `CategoryIcon` | Icono con color de categoría | ✅ |

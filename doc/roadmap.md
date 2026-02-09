@@ -105,18 +105,18 @@
 
 ---
 
-## Fase 4 — Profesionales (Semana 6)
+## Fase 4 — Profesionales (Semana 6) ✅ COMPLETADA
 
 **Objetivo:** Agenda de contactos de oficios
 
 | Tarea | Prioridad | Estado |
 |-------|-----------|--------|
-| Pantalla agenda de profesionales | Alta | ⬜ |
-| Pantalla crear/editar profesional | Alta | ⬜ |
-| Valoración personal (1-5 estrellas) | Media | ⬜ |
-| Vincular profesional a intervenciones | Alta | ⬜ |
-| Historial de trabajos por profesional | Media | ⬜ |
-| Acciones: llamar, WhatsApp (intents nativos) | Media | ⬜ |
+| Pantalla agenda de profesionales | Alta | ✅ |
+| Pantalla crear/editar profesional | Alta | ✅ |
+| Valoración personal (1-5 estrellas) | Media | ✅ |
+| Vincular profesional a intervenciones | Alta | ✅ |
+| Historial de trabajos por profesional | Media | ✅ |
+| Acción: llamar (intent nativo) | Media | ✅ |
 
 **Entregable:** Usuario tiene agenda de profesionales con historial de trabajos
 
@@ -326,7 +326,7 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 
 ## Próximos Pasos
 
-1. **Iniciar Fase 4:** Profesionales
+1. **Iniciar Fase 5:** Recordatorios + Localización España
 2. **Definir identidad:** Elegir nombre final y crear branding
 3. **Diseñar UI:** Wireframes/mockups antes de codificar
 

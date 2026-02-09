@@ -99,10 +99,11 @@ UI (Composables) → ViewModel → UseCase → Repository → DAO
 - Fase 1 — Fundamentos
 - Fase 2 — Intervenciones
 - Fase 3 — Inventario del Hogar
+- Fase 4 — Profesionales
 
 **Rediseño UI completado:** Nueva paleta terracota mediterránea + Dashboard funcional (ver `doc/redesigning-plan.md`)
 
-**Próxima fase:** Fase 4 — Profesionales
+**Próxima fase:** Fase 5 — Recordatorios + Localización España
 
 **Tareas pendientes:** Ver `doc/tasks/todo.md`
 

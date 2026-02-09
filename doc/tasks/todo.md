@@ -1,6 +1,6 @@
 # HogarFix — Tareas Actuales
 
-> **Fase actual:** Fase 3 — Inventario (COMPLETADA)
+> **Fase actual:** Fase 4 — Profesionales (COMPLETADA)
 
 ---
 
@@ -190,16 +190,73 @@ App que:
 
 ---
 
-## Siguiente: Fase 4 — Profesionales
+## Fase 4 — Profesionales (COMPLETADA ✅)
 
-Tareas de la Fase 4:
+**Objetivo:** Agenda de contactos de oficios
 
-- [ ] Pantalla lista de profesionales
-- [ ] Pantalla crear/editar profesional
-- [ ] Campos: nombre, teléfono, email, categoría, valoración
-- [ ] Acciones: llamar, WhatsApp (intents nativos)
-- [ ] Vincular profesional a intervenciones
-- [ ] Historial de trabajos por profesional
-- [ ] Repository + UseCase para CRUD
+### Domain Layer
 
-**Entregable:** Usuario tiene agenda de profesionales con historial de trabajos
+- [x] `ProfessionalRepository` interface
+- [x] `GetProfessionalsUseCase`
+- [x] `SaveProfessionalUseCase`
+- [x] `DeleteProfessionalUseCase`
+
+### Data Layer
+
+- [x] `ProfessionalMapper` (Entity ↔ Domain)
+- [x] `ProfessionalRepositoryImpl`
+- [x] Cambiar `Professional.specialty` de `String` a `Category`
+
+### UI Components
+
+- [x] `ProfessionalCard` — Tarjeta con categoria, rating, boton llamar
+- [x] `RatingBar` — Componente estrellas 1-5 (display + interactivo)
+
+### Screens
+
+- [x] `ProfessionalListScreen` con LazyColumn y filtros por categoria
+- [x] `ProfessionalListViewModel` con State/Event pattern
+- [x] `ProfessionalFormScreen` para crear/editar (nombre, telefono, email, especialidad, valoracion, notas)
+- [x] `ProfessionalFormViewModel`
+
+### Navigation & DI
+
+- [x] Ruta `ProfessionalForm(id: Long?)` en NavRoutes
+- [x] Navegacion conectada en AppNavHost
+- [x] Dependencias registradas en AppModule (Koin)
+
+### Platform Actions
+
+- [x] `PlatformActions.kt` (expect/actual) para abrir dialer
+- [x] Implementacion Android (Intent ACTION_DIAL)
+- [x] Implementacion iOS (UIApplication openURL)
+
+---
+
+## Entregable de Fase 4
+
+App que:
+- [x] Lista profesionales con LazyColumn
+- [x] Filtra por categoria (especialidad)
+- [x] Crea nuevos profesionales con todos los campos
+- [x] Edita profesionales existentes
+- [x] Elimina profesionales (swipe y desde formulario)
+- [x] Muestra valoracion con estrellas
+- [x] Muestra contador de intervenciones por profesional
+- [x] Boton para llamar directamente desde la tarjeta
+
+---
+
+## Siguiente: Fase 5 — Recordatorios + Localizacion Espana
+
+Tareas de la Fase 5:
+
+- [ ] Pantalla lista de recordatorios
+- [ ] Crear recordatorio: titulo, intervalo, elemento vinculado
+- [ ] Notificaciones locales (expect/actual)
+- [ ] Logica de recurrencia (cada X dias/meses)
+- [ ] Marcar como completado → recalcular proxima fecha
+- [ ] Indicadores visuales (verde/amarillo/rojo)
+- [ ] Plantillas recordatorios Espana (ITE, revision gas, caldera, etc.)
+
+**Entregable:** Sistema de recordatorios funcional con plantillas para Espana

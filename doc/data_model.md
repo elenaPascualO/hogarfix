@@ -33,7 +33,7 @@
 │ name: String        │       │ intervalDays: Int   │
 │ phone: String?      │       │ nextDueDate: LocalDate │
 │ email: String?      │       │ homeItemId: Long?   │
-│ specialty: String   │       │ category: Category  │
+│ specialty: Category │       │ category: Category  │
 │ personalRating: Int?│       │ isActive: Boolean   │
 │ notes: String?      │       │ lastCompletedDate: LocalDate? │
 │ createdAt: Instant  │       │ createdAt: Instant  │
@@ -99,7 +99,7 @@ Contacto de profesional o empresa.
 | name | String | Sí | Nombre o empresa |
 | phone | String? | No | Teléfono |
 | email | String? | No | Email |
-| specialty | String | Sí | Especialidad principal |
+| specialty | Category | Sí | Especialidad principal (enum Category) |
 | personalRating | Int? | No | Valoración 1-5 |
 | notes | String? | No | Notas adicionales |
 | createdAt | Instant | Auto | Fecha de creación |
