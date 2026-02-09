@@ -216,7 +216,7 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 
 | Tarea | Prioridad | Estado |
 |-------|-----------|--------|
-| Tests unitarios (UseCases, Repositories) | Alta | ⬜ |
+| Tests unitarios (UseCases, Repositories, Mappers, Models) | Alta | ✅ (98 tests) |
 | Tests de UI (Compose test) | Media | ⬜ |
 | Testing manual Android + iOS | Alta | ⬜ |
 | Configurar firma (Android) y provisioning (iOS) | Alta | ⬜ |

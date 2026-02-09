@@ -40,6 +40,7 @@ hogarfix/
 │   │       ├── data/        # Repositories, DAOs, Entities
 │   │       ├── domain/      # UseCases, Models, Interfaces
 │   │       └── ui/          # Screens, ViewModels, Components
+│   ├── commonTest/          # Tests unitarios (kotlin.test)
 │   ├── androidMain/         # Código específico Android
 │   └── iosMain/             # Código específico iOS
 ├── iosApp/                  # Xcode wrapper

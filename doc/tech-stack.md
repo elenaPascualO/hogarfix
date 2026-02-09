@@ -89,6 +89,12 @@ hogarfix/
 │       │       ├── MainApplication.kt
 │       │       └── platform/
 │       │
+│       ├── commonTest/             # Tests unitarios (kotlin.test)
+│       │   └── kotlin/com/hogarfix/
+│       │       ├── data/mapper/   # Tests de mappers
+│       │       ├── domain/        # Tests de modelos y use cases
+│       │       └── ui/            # Tests de helpers UI
+│       │
 │       ├── iosMain/               # Código específico iOS
 │       │   └── kotlin/com/hogarfix/
 │       │       └── platform/
