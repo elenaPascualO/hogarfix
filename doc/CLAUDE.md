@@ -120,6 +120,27 @@ UI (Composables) → ViewModel → UseCase → Repository → DAO
 
 ---
 
+## Proceso obligatorio tras cada funcionalidad nueva
+
+Después de implementar cualquier funcionalidad nueva o modificación, se deben completar estos dos pasos antes de considerar la tarea terminada:
+
+1. **Crear tests** para todas las funciones creadas o modificadas:
+   - Tests de mappers (roundtrip entity↔domain, null handling, JSON)
+   - Tests de use cases (CRUD completo con fake repositories)
+   - Tests de modelos (propiedades computadas, validación)
+   - Tests de helpers/lógica de negocio
+   - Ejecutar `./gradlew :composeApp:testDebugUnitTest` y verificar que pasan todos
+
+2. **Actualizar documentación** relevante:
+   - `doc/tasks/todo.md` — Marcar tareas completadas, añadir nuevas
+   - `doc/roadmap.md` — Actualizar estado de fases
+   - `doc/CLAUDE.md` — Actualizar estado del proyecto
+   - `doc/ui_screens.md` — Si hay pantallas o componentes nuevos
+   - `doc/data_model.md` — Si hay cambios en entidades o relaciones
+   - `doc/tech-stack.md` — Si hay nuevos expect/actual o dependencias
+
+---
+
 ## Qué NO hacer
 
 - No añadir backend/sync todavía (es feature futura)

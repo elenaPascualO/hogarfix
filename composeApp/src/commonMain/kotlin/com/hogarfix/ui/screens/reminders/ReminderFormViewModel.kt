@@ -61,6 +61,8 @@ class ReminderFormViewModel(
                             nextDueDate = reminder.nextDueDate,
                             homeItemId = reminder.homeItemId,
                             isActive = reminder.isActive,
+                            lastCompletedDate = reminder.lastCompletedDate,
+                            createdAt = reminder.createdAt,
                             isLoading = false
                         )
                     }
@@ -166,7 +168,8 @@ class ReminderFormViewModel(
                     homeItemId = currentState.homeItemId,
                     category = currentState.category!!,
                     isActive = currentState.isActive,
-                    createdAt = currentInstant()
+                    lastCompletedDate = currentState.lastCompletedDate,
+                    createdAt = currentState.createdAt ?: currentInstant()
                 )
 
                 saveReminderUseCase(reminder)

@@ -480,8 +480,17 @@ DISEÑADO PARA ESPAÑA
 • Categorías adaptadas al mercado español
 • Totalmente en español
 
-Próximamente: inventario de electrodomésticos, directorio de profesionales,
-recordatorios de mantenimiento preventivo, export a PDF.
+INVENTARIO Y PROFESIONALES
+• Registra electrodomésticos con marca, modelo y garantía
+• Directorio de profesionales con valoración por estrellas
+• Llamar directamente desde la app
+
+RECORDATORIOS INTELIGENTES
+• Programa mantenimientos periódicos (caldera, filtros, ITE...)
+• Alertas de vencidos con indicadores visuales
+• Completa y recalcula automáticamente la próxima fecha
+
+Próximamente: export a PDF, notificaciones push, plantillas por tipo de vivienda.
 ```
 
 ### 4.3 Estrategia de Screenshots
@@ -490,9 +499,10 @@ recordatorios de mantenimiento preventivo, export a PDF.
 |---|---|---|---|
 | 1 | Dashboard | "Todo tu hogar en un vistazo" | Primera impresión |
 | 2 | Lista de intervenciones | "Historial completo" | Funcionalidad principal |
-| 3 | Detalle de intervención | "Cada detalle importa" | Fotos antes/después |
-| 4 | Formulario de creación | "Registra en segundos" | Facilidad de uso |
-| 5 | Selector de categorías | "13 categorías para todo" | Versatilidad |
+| 3 | Formulario de intervención | "Registra en segundos" | Facilidad de uso |
+| 4 | Inventario | "Tu hogar bajo control" | Inventario + garantías |
+| 5 | Recordatorios | "Nunca olvides un mantenimiento" | Sistema de recordatorios |
+| 6 | Profesionales | "Tu agenda de confianza" | Directorio profesionales |
 
 **Resoluciones necesarias:**
 
@@ -697,9 +707,16 @@ recordatorios de mantenimiento preventivo, export a PDF.
 ### 7.2 Funcionalidad
 
 - [ ] CRUD de intervenciones funciona correctamente
+- [ ] CRUD de inventario (HomeItems) funciona correctamente
+- [ ] CRUD de profesionales funciona correctamente
+- [ ] CRUD de recordatorios funciona correctamente
+- [ ] Completar recordatorio recalcula próxima fecha
+- [ ] Dialog "Programar recordatorio?" tras nueva intervención funciona
+- [ ] Dashboard muestra gastos, vencidos y próximos mantenimientos
 - [ ] Photo picker funciona (añadir/ver foto)
-- [ ] Filtros de categoría y estado funcionan
-- [ ] Dashboard muestra datos correctos
+- [ ] Filtros de categoría funcionan en todas las listas
+- [ ] Swipe-to-delete funciona en todas las listas
+- [ ] Llamar a profesional desde tarjeta funciona
 - [ ] Dark mode funciona
 - [ ] Rotación de pantalla no pierde datos
 - [ ] Cierre y reapertura de app mantiene datos (persistencia Room)

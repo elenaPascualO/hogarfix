@@ -20,6 +20,8 @@ data class ReminderFormState(
     val nextDueDate: LocalDate? = null,
     val homeItemId: Long? = null,
     val isActive: Boolean = true,
+    val lastCompletedDate: LocalDate? = null,
+    val createdAt: kotlinx.datetime.Instant? = null,
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
     val isDeleting: Boolean = false,

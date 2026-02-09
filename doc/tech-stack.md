@@ -164,6 +164,8 @@ Funcionalidades que requieren implementación específica:
 | **Abrir WhatsApp** | Intent wa.me | URL scheme | window.open |
 | **Persistencia DB** | Room (SQLite) | Room (SQLite) | IndexedDB / Backend |
 | **Fecha/Hora actual** | Clock.System (kotlinx-datetime) | NSDate (expect/actual) | Clock.System |
+| **PlatformActions** | Intent ACTION_DIAL / wa.me | UIApplication.sharedApplication | window.open |
+| **TimeUtils** | kotlinx-datetime | NSDateFormatter (expect/actual) | kotlinx-datetime |
 
 ---
 
