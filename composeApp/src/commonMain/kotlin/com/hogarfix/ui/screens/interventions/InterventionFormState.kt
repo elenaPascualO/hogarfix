@@ -2,6 +2,7 @@ package com.hogarfix.ui.screens.interventions
 
 import com.hogarfix.domain.model.Category
 import com.hogarfix.domain.model.DoneBy
+import com.hogarfix.domain.model.HomeItem
 import com.hogarfix.domain.model.Professional
 import com.hogarfix.domain.model.Status
 import kotlinx.datetime.LocalDate
@@ -19,6 +20,7 @@ data class InterventionFormState(
     val professionalId: Long? = null,
     val professionals: List<Professional> = emptyList(),
     val homeItemId: Long? = null,
+    val homeItems: List<HomeItem> = emptyList(),
     val photoUris: List<String> = emptyList(),
     val pendingPhotos: List<ByteArray> = emptyList(),
     val notes: String = "",
@@ -42,4 +44,7 @@ data class InterventionFormState(
 
     val selectedProfessional: Professional?
         get() = professionalId?.let { id -> professionals.find { it.id == id } }
+
+    val selectedHomeItem: HomeItem?
+        get() = homeItemId?.let { id -> homeItems.find { it.id == id } }
 }

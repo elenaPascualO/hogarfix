@@ -11,21 +11,34 @@ import com.hogarfix.ui.screens.interventions.InterventionFormScreen
 import com.hogarfix.ui.screens.interventions.InterventionListScreen
 import com.hogarfix.ui.screens.inventory.HomeItemFormScreen
 import com.hogarfix.ui.screens.inventory.InventoryListScreen
+import com.hogarfix.ui.screens.onboarding.OnboardingScreen
 import com.hogarfix.ui.screens.professionals.ProfessionalFormScreen
 import com.hogarfix.ui.screens.professionals.ProfessionalListScreen
 import com.hogarfix.ui.screens.reminders.ReminderFormScreen
 import com.hogarfix.ui.screens.reminders.ReminderListScreen
+import com.hogarfix.ui.screens.search.SearchScreen
 
 @Composable
 fun AppNavHost(
     navController: NavHostController,
+    startDestination: NavRoute = NavRoute.Home,
     modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavRoute.Home,
+        startDestination = startDestination,
         modifier = modifier
     ) {
+        composable<NavRoute.Onboarding> {
+            OnboardingScreen(
+                onNavigateToHome = {
+                    navController.navigate(NavRoute.Home) {
+                        popUpTo(NavRoute.Onboarding) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable<NavRoute.Home> {
             HomeScreen(
                 onNavigateToInterventions = {
@@ -42,6 +55,9 @@ fun AppNavHost(
                 },
                 onNavigateToDetail = { interventionId ->
                     navController.navigate(NavRoute.InterventionForm(id = interventionId))
+                },
+                onNavigateToSearch = {
+                    navController.navigate(NavRoute.Search)
                 }
             )
         }
@@ -103,6 +119,24 @@ fun AppNavHost(
             val route = backStackEntry.toRoute<NavRoute.ReminderForm>()
             ReminderFormScreen(
                 onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable<NavRoute.Search> {
+            SearchScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToIntervention = { id ->
+                    navController.navigate(NavRoute.InterventionForm(id = id))
+                },
+                onNavigateToHomeItem = { id ->
+                    navController.navigate(NavRoute.HomeItemForm(id = id))
+                },
+                onNavigateToProfessional = { id ->
+                    navController.navigate(NavRoute.ProfessionalForm(id = id))
+                },
+                onNavigateToReminder = { id ->
+                    navController.navigate(NavRoute.ReminderForm(id = id))
+                }
             )
         }
     }

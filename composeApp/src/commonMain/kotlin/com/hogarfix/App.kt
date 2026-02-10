@@ -21,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.hogarfix.ui.navigation.AppNavHost
 import com.hogarfix.ui.navigation.NavRoute
 import com.hogarfix.ui.theme.HogarFixTheme
+import com.hogarfix.util.AppPreferences
 
 data class BottomNavItem(
     val route: NavRoute,
@@ -79,48 +81,60 @@ fun App() {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
 
+        val startDestination = remember {
+            if (AppPreferences().isOnboardingCompleted()) {
+                NavRoute.Home
+            } else {
+                NavRoute.Onboarding
+            }
+        }
+
+        val isOnboarding = currentDestination?.hasRoute(NavRoute.Onboarding::class) == true
+
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
-                NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    tonalElevation = 0.dp
-                ) {
-                    bottomNavItems.forEach { item ->
-                        val selected = currentDestination?.hierarchy?.any {
-                            it.hasRoute(item.route::class)
-                        } == true
+                if (!isOnboarding) {
+                    NavigationBar(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        tonalElevation = 0.dp
+                    ) {
+                        bottomNavItems.forEach { item ->
+                            val selected = currentDestination?.hierarchy?.any {
+                                it.hasRoute(item.route::class)
+                            } == true
 
-                        NavigationBarItem(
-                            selected = selected,
-                            onClick = {
-                                if (item.route == NavRoute.Home) {
-                                    // Para Home, volver al inicio del stack
-                                    navController.popBackStack(NavRoute.Home, inclusive = false)
-                                } else {
-                                    navController.navigate(item.route) {
-                                        popUpTo(NavRoute.Home) {
-                                            saveState = true
+                            NavigationBarItem(
+                                selected = selected,
+                                onClick = {
+                                    if (item.route == NavRoute.Home) {
+                                        navController.popBackStack(NavRoute.Home, inclusive = false)
+                                    } else {
+                                        navController.navigate(item.route) {
+                                            popUpTo(NavRoute.Home) {
+                                                saveState = true
+                                            }
+                                            launchSingleTop = true
+                                            restoreState = true
                                         }
-                                        launchSingleTop = true
-                                        restoreState = true
                                     }
-                                }
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
-                                    contentDescription = item.label
-                                )
-                            },
-                            label = { Text(item.label) }
-                        )
+                                },
+                                icon = {
+                                    Icon(
+                                        imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
+                                        contentDescription = item.label
+                                    )
+                                },
+                                label = { Text(item.label) }
+                            )
+                        }
                     }
                 }
             }
         ) { innerPadding ->
             AppNavHost(
                 navController = navController,
+                startDestination = startDestination,
                 modifier = Modifier.padding(innerPadding)
             )
         }

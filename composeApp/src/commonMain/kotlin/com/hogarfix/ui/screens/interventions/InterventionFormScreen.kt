@@ -186,6 +186,15 @@ fun InterventionFormScreen(
                     onCategorySelected = { viewModel.onEvent(InterventionFormEvent.CategoryChanged(it)) }
                 )
 
+                // Home Item
+                HomeItemSelector(
+                    homeItems = state.homeItems,
+                    selectedHomeItem = state.selectedHomeItem,
+                    onHomeItemSelected = { homeItemId ->
+                        viewModel.onEvent(InterventionFormEvent.HomeItemChanged(homeItemId))
+                    }
+                )
+
                 // Status
                 Text(
                     text = "Estado",
@@ -484,6 +493,91 @@ private fun ProfessionalSelector(
                         text = { Text(professional.name) },
                         onClick = {
                             onProfessionalSelected(professional.id)
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HomeItemSelector(
+    homeItems: List<com.hogarfix.domain.model.HomeItem>,
+    selectedHomeItem: com.hogarfix.domain.model.HomeItem?,
+    onHomeItemSelected: (Long?) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it },
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = selectedHomeItem?.let { item ->
+                buildString {
+                    append(item.name)
+                    item.brand?.let { append(" - $it") }
+                }
+            } ?: "",
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Elemento del hogar") },
+            placeholder = { Text("Seleccionar elemento") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .fillMaxWidth(),
+            singleLine = true
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            if (selectedHomeItem != null) {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            "Sin asignar",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    onClick = {
+                        onHomeItemSelected(null)
+                        expanded = false
+                    }
+                )
+            }
+
+            if (homeItems.isEmpty()) {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            "No hay elementos registrados",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    onClick = { expanded = false },
+                    enabled = false
+                )
+            } else {
+                homeItems.forEach { item ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                buildString {
+                                    append(item.name)
+                                    item.brand?.let { append(" - $it") }
+                                }
+                            )
+                        },
+                        onClick = {
+                            onHomeItemSelected(item.id)
                             expanded = false
                         }
                     )

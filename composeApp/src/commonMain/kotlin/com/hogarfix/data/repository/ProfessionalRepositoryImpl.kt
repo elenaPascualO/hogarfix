@@ -24,6 +24,12 @@ class ProfessionalRepositoryImpl(
         }
     }
 
+    override fun searchByText(query: String): Flow<List<Professional>> {
+        return professionalDao.searchByText(query).map { entities ->
+            entities.map { ProfessionalMapper.toDomain(it) }
+        }
+    }
+
     override suspend fun getById(id: Long): Professional? {
         return professionalDao.getById(id)?.let { ProfessionalMapper.toDomain(it) }
     }

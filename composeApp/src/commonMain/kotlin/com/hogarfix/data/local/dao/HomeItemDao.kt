@@ -24,6 +24,9 @@ interface HomeItemDao {
     @Query("SELECT * FROM home_items WHERE warrantyEndDate IS NOT NULL AND warrantyEndDate BETWEEN :today AND :futureDate ORDER BY warrantyEndDate ASC")
     fun getWithExpiringWarranty(today: Long, futureDate: Long): Flow<List<HomeItemEntity>>
 
+    @Query("SELECT * FROM home_items WHERE name LIKE '%' || :query || '%' OR brand LIKE '%' || :query || '%' OR model LIKE '%' || :query || '%' OR notes LIKE '%' || :query || '%' ORDER BY name ASC")
+    fun searchByText(query: String): Flow<List<HomeItemEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: HomeItemEntity): Long
 

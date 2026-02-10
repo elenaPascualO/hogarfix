@@ -4,6 +4,9 @@ import kotlinx.serialization.Serializable
 
 sealed interface NavRoute {
     @Serializable
+    data object Onboarding : NavRoute
+
+    @Serializable
     data object Home : NavRoute
 
     @Serializable
@@ -29,6 +32,9 @@ sealed interface NavRoute {
 
     @Serializable
     data class ReminderForm(val id: Long? = null) : NavRoute
+
+    @Serializable
+    data object Search : NavRoute
 }
 
 enum class BottomNavItem(

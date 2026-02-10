@@ -10,6 +10,7 @@ interface InterventionRepository {
     fun getByCategory(category: Category): Flow<List<Intervention>>
     fun getByHomeItem(itemId: Long): Flow<List<Intervention>>
     fun getByProfessional(professionalId: Long): Flow<List<Intervention>>
+    fun searchByText(query: String): Flow<List<Intervention>>
     suspend fun getById(id: Long): Intervention?
     suspend fun save(intervention: Intervention): Long
     suspend fun delete(id: Long)

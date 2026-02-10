@@ -40,10 +40,10 @@
 │  POST-LANZAMIENTO                                                           │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  Fase 8                    Fase 9                                           │
-│  Compartir historial       Web (cuando Wasm stable)                         │
-│  (PDF/link)                ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─>                         │
-│  ────────────────────>                                                      │
+│  Fase 8                    Fase 9                  Fase 10                  │
+│  Compartir historial       Monetización            Web (Wasm stable)        │
+│  (PDF/link)                (Freemium progresivo)   ─ ─ ─ ─ ─ ─ ─ ─ ─>      │
+│  ────────────────────>     ──────────────────>                              │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -214,15 +214,60 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 
 **Objetivo:** Publicación en stores
 
+> Guía técnica detallada: [`doc/mobile-deployment-plan.md`](mobile-deployment-plan.md)
+
+### 7.1 Testing
+
 | Tarea | Prioridad | Estado |
 |-------|-----------|--------|
 | Tests unitarios (UseCases, Repositories, Mappers, Models) | Alta | ✅ (98 tests) |
 | Tests de UI (Compose test) | Media | ⬜ |
 | Testing manual Android + iOS | Alta | ⬜ |
-| Configurar firma (Android) y provisioning (iOS) | Alta | ⬜ |
-| Assets para stores (capturas, descripción, icono) | Alta | ⬜ |
-| Publicar en Google Play (beta cerrada) | Alta | ⬜ |
-| Publicar en App Store (TestFlight) | Alta | ⬜ |
+
+### 7.2 Preparación técnica
+
+| Tarea | Prioridad | Estado |
+|-------|-----------|--------|
+| Generar keystore de release (Android) | Alta | ⬜ |
+| Configurar signing + ProGuard en `build.gradle.kts` | Alta | ⬜ |
+| Crear `proguard-rules.pro` | Alta | ⬜ |
+| Configurar TEAM_ID + bundle ID (iOS) | Alta | ⬜ |
+| Reducir deployment target a iOS 16.0 | Alta | ⬜ |
+| Crear `PrivacyInfo.xcprivacy` | Alta | ⬜ |
+| Build release probado en dispositivo físico (ambas plataformas) | Alta | ⬜ |
+
+### 7.3 Assets y tiendas
+
+| Tarea | Prioridad | Estado |
+|-------|-----------|--------|
+| Icono final 1024×1024 (sin transparencia, paleta terracota) | Alta | ⬜ |
+| Screenshots Android (teléfono + tablet) + iOS (iPhone + iPad) | Alta | ⬜ |
+| Feature graphic 1024×500 (Android) | Media | ⬜ |
+| Descripción larga y corta para stores | Alta | ⬜ |
+| Publicar política de privacidad (URL pública) | Alta | ⬜ |
+| Crear app en Google Play Console + ficha completa | Alta | ⬜ |
+| Crear app en App Store Connect + ficha completa | Alta | ⬜ |
+
+### 7.4 Lanzamiento
+
+| Tarea | Prioridad | Estado |
+|-------|-----------|--------|
+| Subir AAB a testing interno (Google Play) | Alta | ⬜ |
+| Subir build a TestFlight (App Store) | Alta | ⬜ |
+| Beta testing con 5-10 testers (1-2 semanas) | Alta | ⬜ |
+| Lanzamiento producción Android (rollout gradual) | Alta | ⬜ |
+| Enviar a revisión App Store + lanzamiento | Alta | ⬜ |
+
+### Cuentas necesarias
+
+| Plataforma | Coste | Duración |
+|------------|-------|----------|
+| Google Play Developer | ~25 USD (pago único) | Permanente |
+| Apple Developer Program | 99 USD/año | Anual |
+
+### Timeline estimado: 3-4 semanas
+
+Preparación (1-2 días) → Config técnica (2 días) → Assets (2-3 días) → Config tiendas (1 día) → Testing (1-2 semanas) → Lanzamiento (2-3 días)
 
 **Milestone:** 🚀 **MVP Mobile publicado en stores**
 
@@ -246,7 +291,84 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 
 ---
 
-## Fase 9 — Web (Futuro, cuando Kotlin/Wasm sea stable)
+## Fase 9 — Monetización (Freemium progresivo)
+
+**Objetivo:** Monetización sostenible sin comprometer la experiencia
+
+> Principio: **Sin anuncios nunca.**
+
+### Estrategia en 3 sub-fases
+
+```
+Fase A (Lanzamiento)    →  Fase B (~500 usuarios)     →  Fase C (con backend)
+Todo gratis                Freemium + pago único          Añadir tier suscripción
+(ganar tracción)           4.99€                          1.99€/mes o 14.99€/año
+```
+
+### Sub-fase A — Lanzamiento (0 → ~500 usuarios activos)
+
+| Tier | Precio | Contenido |
+|------|--------|-----------|
+| **Gratis** | 0€ | Todas las funcionalidades sin límites |
+
+Objetivo: conseguir usuarios, reviews, feedback y validar product-market fit.
+
+### Sub-fase B — Freemium (a partir de ~500 usuarios activos)
+
+| Tier | Precio | Contenido |
+|------|--------|-----------|
+| **Gratis** | 0€ | 1 vivienda, máx 20 intervenciones, 5 items inventario, 3 profesionales |
+| **Pro** | **4.99€ pago único** | Todo ilimitado, multi-vivienda, export PDF/Excel, temas visuales |
+
+Pago único porque la app es offline sin coste de servidor — la suscripción no se justifica aún.
+
+Usuarios de la Fase A mantienen acceso ilimitado como "early adopters".
+
+### Sub-fase C — Cloud y Sync (con backend)
+
+| Tier | Precio | Contenido |
+|------|--------|-----------|
+| **Gratis** | 0€ | Igual que sub-fase B, sin sync |
+| **Pro** | 4.99€ pago único | Todo offline ilimitado |
+| **Pro+** | **1.99€/mes** o **14.99€/año** | Sync entre dispositivos, backup cloud, acceso web |
+
+Ahora sí suscripción: hay coste real de servidor.
+
+### Features con alto poder de conversión
+
+| Feature | Tier | Razón de conversión |
+|---------|------|---------------------|
+| Multi-vivienda | Pro | Quien tiene 2+ propiedades paga sin dudar |
+| Export PDF | Pro | Seguros, venta de casa, reclamaciones |
+| Export Excel | Pro | Control total de datos |
+| Estadísticas avanzadas | Pro | Gráficos de gasto anual por categoría |
+| OCR de facturas | Pro | Alto valor percibido |
+| Temas visuales | Pro | Personalización |
+| Sync multi-dispositivo | Pro+ | Familias, parejas |
+| Backup en la nube | Pro+ | Tranquilidad |
+| Acceso web | Pro+ | Consultar desde ordenador |
+
+### Implementación técnica
+
+Arquitectura del paywall: `PurchaseManager` (expect/actual) → `SubscriptionRepository` (estado en Room) → `Feature Flags` (isProUser, isProPlusUser).
+
+- Android: Google Play Billing
+- iOS: StoreKit 2
+
+Integrar en Fase 7 o como "Fase 7.5" antes del lanzamiento público.
+
+### Métricas clave
+
+| Métrica | Objetivo Fase A | Objetivo Fase B |
+|---------|----------------|----------------|
+| Usuarios activos mensuales | 500+ | 2.000+ |
+| Retención a 30 días | > 30% | > 35% |
+| Tasa de conversión Free → Pro | — | > 3% |
+| Rating en tiendas | > 4.0 | > 4.2 |
+
+---
+
+## Fase 10 — Web (Futuro, cuando Kotlin/Wasm sea stable)
 
 **Objetivo:** Versión web de la app
 
@@ -260,7 +382,7 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 | PWA para instalación desde navegador | - | ⏸️ |
 | (Si backend) Implementar sync entre dispositivos | - | ⏸️ |
 
-**Nota:** Si se implementa backend para Web, esto habilita sync entre dispositivos como feature Pro.
+**Nota:** Si se implementa backend para Web, esto habilita sync entre dispositivos como feature Pro+ (ver Fase 9).
 
 ---
 
@@ -274,53 +396,32 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 | Localización profunda España | 5 (Recordatorios) | En MVP |
 | Timeline visual fotos | 6 (Home) | En MVP |
 | Compartir historial PDF | 8 | Post-MVP |
-
----
-
-## Monetización (Fase posterior)
-
-### Modelo Freemium
-
-**Versión Gratuita:**
-- 1 vivienda
-- Todas las funcionalidades del MVP
-- Sin límite de intervenciones
-- Offline completo
-
-**Versión Pro (pago único o suscripción):**
-- Multi-vivienda
-- Exportar a Excel
-- Compartir historial (PDF premium)
-- Backup en nube / Sync (cuando haya Web)
-- OCR de facturas (futuro)
-
-**Principio:** Sin anuncios nunca.
+| Monetización freemium | 9 | Post-MVP |
 
 ---
 
 ## Timeline Visual
 
 ```
-    2025
+    2025-2026
     ────────────────────────────────────────────────
 
-    Q1: MVP Mobile
-    ├── S1-S2:  Fundamentos
-    ├── S3-S4:  Intervenciones
-    ├── S5:     Inventario
-    ├── S6:     Profesionales
-    ├── S7:     Recordatorios + España
-    ├── S8:     Home + Dashboard + Onboarding
+    MVP Mobile
+    ├── S1-S2:  Fundamentos ✅
+    ├── S3-S4:  Intervenciones ✅
+    ├── S5:     Inventario ✅
+    ├── S6:     Profesionales ✅
+    ├── S7:     Recordatorios + España ✅
+    ├── S8:     Home + Dashboard + Onboarding 🔄
     └── S9-S10: Testing + Lanzamiento stores
 
-    Q2: Post-lanzamiento
-    ├── Compartir historial (PDF)
-    ├── Feedback usuarios
-    └── Iteración sobre MVP
-
-    Q3-Q4: Crecimiento
-    ├── Monetización (Pro)
-    └── Web (si Wasm stable)
+    Post-lanzamiento
+    ├── Fase 8:  Compartir historial (PDF)
+    ├── Fase 9:  Monetización freemium progresivo
+    │   ├── A: Todo gratis (tracción)
+    │   ├── B: Pro 4.99€ (~500 usuarios)
+    │   └── C: Pro+ suscripción (con backend)
+    └── Fase 10: Web (si Wasm stable)
 
     ────────────────────────────────────────────────
 ```
@@ -329,11 +430,12 @@ Visualización de los datos que ya se recopilan (`laborCost` + `materialCost`):
 
 ## Próximos Pasos
 
-1. **Continuar Fase 6:** Home + Diferenciadores UI + Localización España
+1. **Completar Fase 6:** Timeline visual fotos, onboarding, búsqueda global
 2. **Notificaciones locales:** expect/actual para Android e iOS
 3. **Plantillas España:** ITE, revisión gas, caldera, etc.
 4. **Onboarding:** Selector tipo vivienda con plantillas predefinidas
+5. **Fase 7:** Preparación técnica de despliegue + testing + lanzamiento
 
 ---
 
-*Documento generado combinando plan-desarrollo-hogarfix.md y diferenciadores-hogarfix.md*
+*Documento consolidado — integra plan de desarrollo, diferenciadores, monetización y despliegue.*

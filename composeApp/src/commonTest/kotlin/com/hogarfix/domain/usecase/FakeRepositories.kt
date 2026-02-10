@@ -29,6 +29,15 @@ class FakeInterventionRepository : InterventionRepository {
     override fun getByProfessional(professionalId: Long): Flow<List<Intervention>> =
         items.map { list -> list.filter { it.professionalId == professionalId } }
 
+    override fun searchByText(query: String): Flow<List<Intervention>> =
+        items.map { list ->
+            list.filter {
+                it.title.contains(query, ignoreCase = true) ||
+                    (it.description?.contains(query, ignoreCase = true) == true) ||
+                    (it.notes?.contains(query, ignoreCase = true) == true)
+            }
+        }
+
     override suspend fun getById(id: Long): Intervention? =
         items.value.find { it.id == id }
 
@@ -63,6 +72,16 @@ class FakeHomeItemRepository : HomeItemRepository {
     override fun getWithExpiringWarranty(daysAhead: Int): Flow<List<HomeItem>> =
         items.map { list -> list.filter { it.warrantyEndDate != null } }
 
+    override fun searchByText(query: String): Flow<List<HomeItem>> =
+        items.map { list ->
+            list.filter {
+                it.name.contains(query, ignoreCase = true) ||
+                    (it.brand?.contains(query, ignoreCase = true) == true) ||
+                    (it.model?.contains(query, ignoreCase = true) == true) ||
+                    (it.notes?.contains(query, ignoreCase = true) == true)
+            }
+        }
+
     override suspend fun getById(id: Long): HomeItem? =
         items.value.find { it.id == id }
 
@@ -93,6 +112,14 @@ class FakeProfessionalRepository : ProfessionalRepository {
 
     override fun getBySpecialty(category: Category): Flow<List<Professional>> =
         items.map { list -> list.filter { it.specialty == category } }
+
+    override fun searchByText(query: String): Flow<List<Professional>> =
+        items.map { list ->
+            list.filter {
+                it.name.contains(query, ignoreCase = true) ||
+                    (it.notes?.contains(query, ignoreCase = true) == true)
+            }
+        }
 
     override suspend fun getById(id: Long): Professional? =
         items.value.find { it.id == id }
@@ -128,6 +155,14 @@ class FakeReminderRepository : ReminderRepository {
 
     override fun getByHomeItem(homeItemId: Long): Flow<List<Reminder>> =
         items.map { list -> list.filter { it.homeItemId == homeItemId } }
+
+    override fun searchByText(query: String): Flow<List<Reminder>> =
+        items.map { list ->
+            list.filter {
+                it.title.contains(query, ignoreCase = true) ||
+                    (it.description?.contains(query, ignoreCase = true) == true)
+            }
+        }
 
     override suspend fun getById(id: Long): Reminder? =
         items.value.find { it.id == id }

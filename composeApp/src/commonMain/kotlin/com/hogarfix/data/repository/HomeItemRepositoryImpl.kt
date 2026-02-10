@@ -40,6 +40,12 @@ class HomeItemRepositoryImpl(
         }
     }
 
+    override fun searchByText(query: String): Flow<List<HomeItem>> {
+        return homeItemDao.searchByText(query).map { entities ->
+            entities.map { HomeItemMapper.toDomain(it) }
+        }
+    }
+
     override suspend fun getById(id: Long): HomeItem? {
         return homeItemDao.getById(id)?.let { HomeItemMapper.toDomain(it) }
     }

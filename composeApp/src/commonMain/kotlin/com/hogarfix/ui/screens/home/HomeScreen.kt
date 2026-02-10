@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.AttachMoney
 import androidx.compose.material.icons.outlined.Construction
 import androidx.compose.material.icons.outlined.Inventory2
 import androidx.compose.material.icons.outlined.NotificationsActive
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -34,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.IconButton
 import com.hogarfix.ui.components.InterventionCard
 import com.hogarfix.ui.components.QuickActionButton
 import com.hogarfix.ui.components.ReminderCard
@@ -48,6 +50,7 @@ fun HomeScreen(
     onNavigateToReminders: () -> Unit = {},
     onNavigateToForm: () -> Unit = {},
     onNavigateToDetail: (Long) -> Unit = {},
+    onNavigateToSearch: () -> Unit = {},
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel()
 ) {
@@ -74,11 +77,24 @@ fun HomeScreen(
         item {
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = "¡Hola!",
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "¡Hola!",
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                IconButton(onClick = onNavigateToSearch) {
+                    Icon(
+                        imageVector = Icons.Outlined.Search,
+                        contentDescription = "Buscar",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(4.dp))
 

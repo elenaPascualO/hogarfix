@@ -8,6 +8,7 @@ interface HomeItemRepository {
     fun getAll(): Flow<List<HomeItem>>
     fun getByCategory(category: Category): Flow<List<HomeItem>>
     fun getWithExpiringWarranty(daysAhead: Int): Flow<List<HomeItem>>
+    fun searchByText(query: String): Flow<List<HomeItem>>
     suspend fun getById(id: Long): HomeItem?
     suspend fun save(homeItem: HomeItem): Long
     suspend fun delete(id: Long)

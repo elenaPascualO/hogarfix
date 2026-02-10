@@ -5,17 +5,20 @@ import androidx.lifecycle.viewModelScope
 import com.hogarfix.domain.model.Status
 import com.hogarfix.domain.usecase.GetInterventionsUseCase
 import com.hogarfix.domain.usecase.GetRemindersUseCase
+import com.hogarfix.util.NotificationScheduler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.hogarfix.util.currentDate
 
 class HomeViewModel(
     private val getInterventionsUseCase: GetInterventionsUseCase,
-    private val getRemindersUseCase: GetRemindersUseCase
+    private val getRemindersUseCase: GetRemindersUseCase,
+    private val notificationScheduler: NotificationScheduler
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -23,6 +26,20 @@ class HomeViewModel(
 
     init {
         loadDashboardData()
+        rescheduleNotifications()
+    }
+
+    private fun rescheduleNotifications() {
+        viewModelScope.launch {
+            try {
+                val activeReminders = getRemindersUseCase().first()
+                activeReminders.forEach { reminder ->
+                    notificationScheduler.schedule(reminder)
+                }
+            } catch (_: Exception) {
+                // Silent fail — rescheduling is best-effort
+            }
+        }
     }
 
     private fun loadDashboardData() {

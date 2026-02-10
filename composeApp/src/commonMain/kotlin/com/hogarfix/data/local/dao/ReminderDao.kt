@@ -30,6 +30,9 @@ interface ReminderDao {
     @Query("SELECT * FROM reminders WHERE homeItemId = :itemId ORDER BY nextDueDate ASC")
     fun getByHomeItem(itemId: Long): Flow<List<ReminderEntity>>
 
+    @Query("SELECT * FROM reminders WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%' ORDER BY nextDueDate ASC")
+    fun searchByText(query: String): Flow<List<ReminderEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(reminder: ReminderEntity): Long
 

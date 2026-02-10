@@ -25,7 +25,7 @@ App de **registro de mantenimiento del hogar**. Permite a los usuarios:
 - **DI:** Koin
 - **Navegación:** Compose Navigation
 
-Ver detalles completos en `doc/tech_stack.md`
+Ver detalles completos en `doc/SPEC.md`
 
 ---
 
@@ -53,10 +53,8 @@ hogarfix/
 
 | Documento | Contenido |
 |-----------|-----------|
-| `doc/roadmap.md` | Fases de desarrollo y timeline |
-| `doc/tech_stack.md` | Stack tecnológico y dependencias |
-| `doc/data_model.md` | Entidades, relaciones, enums |
-| `doc/ui_screens.md` | Pantallas y flujos de navegación |
+| `doc/ROADMAP.md` | Fases de desarrollo y timeline |
+| `doc/SPEC.md` | Especificación técnica (stack, modelo de datos, pantallas) |
 | `doc/tasks/todo.md` | Tareas de la fase actual |
 
 ---
@@ -74,7 +72,7 @@ hogarfix/
 - Intervention → HomeItem (N:1)
 - Reminder → HomeItem (N:1)
 
-Ver detalles en `doc/data_model.md`
+Ver detalles en `doc/SPEC.md`
 
 ---
 
@@ -134,11 +132,9 @@ Después de implementar cualquier funcionalidad nueva o modificación, se deben 
 
 2. **Actualizar documentación** relevante:
    - `doc/tasks/todo.md` — Marcar tareas completadas, añadir nuevas
-   - `doc/roadmap.md` — Actualizar estado de fases
-   - `doc/CLAUDE.md` — Actualizar estado del proyecto
-   - `doc/ui_screens.md` — Si hay pantallas o componentes nuevos
-   - `doc/data_model.md` — Si hay cambios en entidades o relaciones
-   - `doc/tech-stack.md` — Si hay nuevos expect/actual o dependencias
+   - `doc/ROADMAP.md` — Actualizar estado de fases
+   - `CLAUDE.md` — Actualizar estado del proyecto
+   - `doc/SPEC.md` — Si hay cambios en pantallas, entidades, dependencias o expect/actual
 
 ---
 

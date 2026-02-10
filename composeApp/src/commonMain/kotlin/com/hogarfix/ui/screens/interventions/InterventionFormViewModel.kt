@@ -8,6 +8,7 @@ import com.hogarfix.domain.model.Intervention
 import com.hogarfix.domain.model.Reminder
 import com.hogarfix.domain.usecase.DeleteInterventionUseCase
 import com.hogarfix.domain.usecase.GetInterventionsUseCase
+import com.hogarfix.domain.usecase.GetHomeItemsUseCase
 import com.hogarfix.domain.usecase.GetProfessionalsUseCase
 import com.hogarfix.domain.usecase.SaveInterventionUseCase
 import com.hogarfix.domain.usecase.SaveReminderUseCase
@@ -30,6 +31,7 @@ class InterventionFormViewModel(
     private val deleteInterventionUseCase: DeleteInterventionUseCase,
     private val saveReminderUseCase: SaveReminderUseCase,
     private val getProfessionalsUseCase: GetProfessionalsUseCase,
+    private val getHomeItemsUseCase: GetHomeItemsUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -43,6 +45,7 @@ class InterventionFormViewModel(
 
     init {
         loadProfessionals()
+        loadHomeItems()
         interventionId?.let { loadIntervention(it) }
     }
 
@@ -50,6 +53,14 @@ class InterventionFormViewModel(
         viewModelScope.launch {
             getProfessionalsUseCase().collect { professionals ->
                 _state.update { it.copy(professionals = professionals) }
+            }
+        }
+    }
+
+    private fun loadHomeItems() {
+        viewModelScope.launch {
+            getHomeItemsUseCase().collect { homeItems ->
+                _state.update { it.copy(homeItems = homeItems) }
             }
         }
     }
@@ -128,6 +139,10 @@ class InterventionFormViewModel(
 
             is InterventionFormEvent.ProfessionalChanged -> {
                 _state.update { it.copy(professionalId = event.professionalId) }
+            }
+
+            is InterventionFormEvent.HomeItemChanged -> {
+                _state.update { it.copy(homeItemId = event.homeItemId) }
             }
 
             is InterventionFormEvent.NotesChanged -> {

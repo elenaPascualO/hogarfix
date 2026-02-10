@@ -15,6 +15,7 @@ sealed interface InterventionFormEvent {
     data class StatusChanged(val status: Status) : InterventionFormEvent
     data class DoneByChanged(val doneBy: DoneBy) : InterventionFormEvent
     data class ProfessionalChanged(val professionalId: Long?) : InterventionFormEvent
+    data class HomeItemChanged(val homeItemId: Long?) : InterventionFormEvent
     data class NotesChanged(val notes: String) : InterventionFormEvent
     data class PhotoAdded(val photoBytes: ByteArray) : InterventionFormEvent {
         override fun equals(other: Any?): Boolean {

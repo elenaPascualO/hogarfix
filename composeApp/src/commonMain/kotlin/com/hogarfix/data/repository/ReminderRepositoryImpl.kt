@@ -4,6 +4,7 @@ import com.hogarfix.data.local.dao.ReminderDao
 import com.hogarfix.data.mapper.ReminderMapper
 import com.hogarfix.domain.model.Reminder
 import com.hogarfix.domain.repository.ReminderRepository
+import com.hogarfix.util.NotificationScheduler
 import com.hogarfix.util.currentDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -11,7 +12,8 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 
 class ReminderRepositoryImpl(
-    private val reminderDao: ReminderDao
+    private val reminderDao: ReminderDao,
+    private val notificationScheduler: NotificationScheduler
 ) : ReminderRepository {
 
     override fun getAllActive(): Flow<List<Reminder>> {
@@ -44,21 +46,35 @@ class ReminderRepositoryImpl(
         }
     }
 
+    override fun searchByText(query: String): Flow<List<Reminder>> {
+        return reminderDao.searchByText(query).map { entities ->
+            entities.map { ReminderMapper.toDomain(it) }
+        }
+    }
+
     override suspend fun getById(id: Long): Reminder? {
         return reminderDao.getById(id)?.let { ReminderMapper.toDomain(it) }
     }
 
     override suspend fun save(reminder: Reminder): Long {
         val entity = ReminderMapper.toEntity(reminder)
-        return if (reminder.id == 0L) {
+        val id = if (reminder.id == 0L) {
             reminderDao.insert(entity)
         } else {
             reminderDao.update(entity)
             reminder.id
         }
+        val savedReminder = reminder.copy(id = id)
+        if (savedReminder.isActive) {
+            notificationScheduler.schedule(savedReminder)
+        } else {
+            notificationScheduler.cancel(id)
+        }
+        return id
     }
 
     override suspend fun delete(id: Long) {
+        notificationScheduler.cancel(id)
         reminderDao.deleteById(id)
     }
 
@@ -71,5 +87,6 @@ class ReminderRepositoryImpl(
             nextDueDate = today.plus(reminder.intervalDays, DateTimeUnit.DAY)
         )
         reminderDao.update(ReminderMapper.toEntity(updatedReminder))
+        notificationScheduler.schedule(updatedReminder)
     }
 }

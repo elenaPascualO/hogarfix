@@ -21,6 +21,9 @@ interface ProfessionalDao {
     @Query("SELECT * FROM professionals WHERE specialty = :specialty ORDER BY personalRating DESC, name ASC")
     fun getBySpecialty(specialty: String): Flow<List<ProfessionalEntity>>
 
+    @Query("SELECT * FROM professionals WHERE name LIKE '%' || :query || '%' OR notes LIKE '%' || :query || '%' ORDER BY name ASC")
+    fun searchByText(query: String): Flow<List<ProfessionalEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(professional: ProfessionalEntity): Long
 

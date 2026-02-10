@@ -25,15 +25,20 @@ import com.hogarfix.domain.usecase.SaveHomeItemUseCase
 import com.hogarfix.domain.usecase.SaveInterventionUseCase
 import com.hogarfix.domain.usecase.SaveProfessionalUseCase
 import com.hogarfix.domain.usecase.SaveReminderUseCase
+import com.hogarfix.domain.usecase.SearchUseCase
 import com.hogarfix.ui.screens.home.HomeViewModel
 import com.hogarfix.ui.screens.interventions.InterventionFormViewModel
 import com.hogarfix.ui.screens.interventions.InterventionListViewModel
+import com.hogarfix.ui.screens.onboarding.OnboardingViewModel
 import com.hogarfix.ui.screens.inventory.HomeItemFormViewModel
 import com.hogarfix.ui.screens.inventory.HomeItemListViewModel
 import com.hogarfix.ui.screens.professionals.ProfessionalFormViewModel
 import com.hogarfix.ui.screens.professionals.ProfessionalListViewModel
 import com.hogarfix.ui.screens.reminders.ReminderFormViewModel
 import com.hogarfix.ui.screens.reminders.ReminderListViewModel
+import com.hogarfix.ui.screens.search.SearchViewModel
+import com.hogarfix.util.AppPreferences
+import com.hogarfix.util.NotificationScheduler
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
@@ -44,6 +49,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val appModule = module {
+    viewModelOf(::OnboardingViewModel)
     viewModelOf(::HomeViewModel)
     viewModelOf(::InterventionListViewModel)
     viewModelOf(::InterventionFormViewModel)
@@ -53,6 +59,7 @@ val appModule = module {
     viewModelOf(::ProfessionalFormViewModel)
     viewModelOf(::ReminderListViewModel)
     viewModelOf(::ReminderFormViewModel)
+    viewModelOf(::SearchViewModel)
 }
 
 val dataModule = module {
@@ -66,6 +73,8 @@ val dataModule = module {
     single { get<AppDatabase>().professionalDao() }
     single { get<AppDatabase>().reminderDao() }
     single<PhotoStorage> { createPhotoStorage() }
+    factory { AppPreferences() }
+    single { NotificationScheduler() }
 }
 
 val repositoryModule = module {
@@ -89,6 +98,7 @@ val useCaseModule = module {
     factoryOf(::SaveReminderUseCase)
     factoryOf(::DeleteReminderUseCase)
     factoryOf(::CompleteReminderUseCase)
+    factoryOf(::SearchUseCase)
 }
 
 fun appModules(): List<Module> = listOf(

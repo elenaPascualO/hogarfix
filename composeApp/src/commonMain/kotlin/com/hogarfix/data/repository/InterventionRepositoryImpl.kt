@@ -44,6 +44,12 @@ class InterventionRepositoryImpl(
         }
     }
 
+    override fun searchByText(query: String): Flow<List<Intervention>> {
+        return interventionDao.searchByText(query).map { entities ->
+            entities.map { InterventionMapper.toDomain(it) }
+        }
+    }
+
     override suspend fun getById(id: Long): Intervention? {
         return interventionDao.getById(id)?.let { InterventionMapper.toDomain(it) }
     }

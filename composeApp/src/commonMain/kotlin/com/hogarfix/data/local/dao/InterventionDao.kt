@@ -30,6 +30,9 @@ interface InterventionDao {
     @Query("SELECT * FROM interventions WHERE category = :category ORDER BY date DESC")
     fun getByCategory(category: String): Flow<List<InterventionEntity>>
 
+    @Query("SELECT * FROM interventions WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%' OR notes LIKE '%' || :query || '%' ORDER BY date DESC")
+    fun searchByText(query: String): Flow<List<InterventionEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(intervention: InterventionEntity): Long
 
