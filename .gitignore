@@ -57,3 +57,7 @@ google-services.json
 
 # Logs
 *.log
+
+# Documentation
+doc/
+CLAUDE.md
